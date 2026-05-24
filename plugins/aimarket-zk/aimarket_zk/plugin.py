@@ -3,8 +3,43 @@
 from __future__ import annotations
 
 import os
+import time
+from collections import defaultdict, deque
+from typing import Deque
 
 from aimarket_hub.plugin import HubPlugin
+
+_PROVE_WINDOW_SEC = 60
+_prove_attempts: dict[str, Deque[float]] = defaultdict(deque)
+
+
+def _prove_rate_limit_per_minute() -> int:
+    raw = (os.environ.get("AIMARKET_ZK_PROVE_RATE_LIMIT") or "12").strip()
+    try:
+        return max(1, int(raw))
+    except ValueError:
+        return 12
+
+
+def _enforce_prove_rate_limit(client_key: str) -> None:
+    from fastapi import HTTPException
+
+    now = time.time()
+    window = _prove_attempts[client_key]
+    while window and now - window[0] > _PROVE_WINDOW_SEC:
+        window.popleft()
+    if len(window) >= _prove_rate_limit_per_minute():
+        raise HTTPException(status_code=429, detail="ZK prove rate limit exceeded")
+    window.append(now)
+
+
+def _client_key_from_request(request) -> str:
+    forwarded = (request.headers.get("x-forwarded-for") or "").split(",")[0].strip()
+    if forwarded:
+        return forwarded
+    if request.client and request.client.host:
+        return request.client.host
+    return "unknown"
 
 
 def _make_prover():
@@ -25,6 +60,7 @@ class ZKPlugin(HubPlugin):
         self._prover = _make_prover()
 
     def register_routes(self, router):
+        from fastapi import Request
         from pydantic import BaseModel, Field
 
         class ProveInputRequest(BaseModel):
@@ -33,15 +69,16 @@ class ZKPlugin(HubPlugin):
             input_payload: dict = Field(default_factory=dict)
 
         @router.post("/zk/prove-input")
-        async def prove_input(body: ProveInputRequest):
+        async def prove_input(body: ProveInputRequest, request: Request):
+            _enforce_prove_rate_limit(_client_key_from_request(request))
             proof = self._prover.prove_input(
                 body.capability_id, body.input_schema, body.input_payload
             )
             return {
                 "proof_id": proof.proof_id,
-                "input_commitment": proof.input_commitment[:16] + "...",
-                "nullifier": proof.nullifier[:16] + "...",
-                "schema_hash": proof.schema_hash[:16] + "...",
+                "input_commitment": proof.input_commitment,
+                "nullifier": proof.nullifier,
+                "schema_hash": proof.schema_hash,
                 "backend": getattr(proof, "backend", os.environ.get("AIMARKET_ZK_BACKEND", "simulated")),
             }
 
