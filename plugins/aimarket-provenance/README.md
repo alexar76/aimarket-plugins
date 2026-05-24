@@ -4,6 +4,15 @@
 
 Infrastructure-layer plugin for [AIMarket Hub](../README.md). Auto-attaches a tamper-evident receipt to every successful `/invoke`, and exposes public verify endpoints for auditors and end users.
 
+> **Source-of-truth note.** Unlike the other `aimarket-*` plugins, which were
+> compressed into thin shims that re-export from `aimarket_hub.*` (see commit
+> 2f958a23), this plugin is the **full, standalone implementation** —
+> receipt, storage, verifier, and API live here under
+> `aimarket_provenance/`. There is intentionally no parallel copy under
+> `plugins/aimarket-provenance/`. Keep that asymmetric on purpose: the hub
+> ships provenance in-process by default; the package is the only edit
+> surface.
+
 ## Value in plain words
 
 Every AI answer gets a cryptographic receipt — who, when, what model — verifiable later for compliance, disputes, and user trust. Like a fiscal receipt for AI output.
@@ -47,8 +56,8 @@ aimarket serve
 Verify:
 
 ```bash
-curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="provenance")'
-curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.provenance'
+curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="provenance")'
+curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.provenance'
 ```
 
 ## API Endpoints
@@ -62,7 +71,7 @@ curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.p
 ## Auto-receipt on invoke
 
 ```bash
-curl -X POST http://localhost:9080/ai-market/v2/invoke \
+curl -X POST http://localhost:9083/ai-market/v2/invoke \
   -H "Content-Type: application/json" \
   -d '{
     "product_id": "prod-demo",
@@ -82,7 +91,7 @@ curl -X POST http://localhost:9080/ai-market/v2/invoke \
 ## Manual attest
 
 ```bash
-curl -X POST http://localhost:9080/ai-market/v2/p/provenance/attest \
+curl -X POST http://localhost:9083/ai-market/v2/p/provenance/attest \
   -H "Authorization: Bearer $AIMARKET_PROVENANCE_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{

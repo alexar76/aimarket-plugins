@@ -5,7 +5,7 @@
 ```python
 import requests
 
-HUB = "http://localhost:9080"  # or https://modelmarket.dev
+HUB = "http://localhost:9083"  # or https://modelmarket.dev
 
 # 1. Confirm plugin is loaded
 plugins = requests.get(f"{HUB}/ai-market/v2/plugins").json()

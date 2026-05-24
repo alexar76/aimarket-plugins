@@ -16,7 +16,7 @@ Signed time-locked discount offers (yield management). Category: **monetization*
 ```bash
 pip install aimarket-promo
 aimarket serve
-curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-promo")'
+curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-promo")'
 ```
 
 ## Hub integration
@@ -44,7 +44,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.promo'
+curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.promo'
 ```
 
 ## More

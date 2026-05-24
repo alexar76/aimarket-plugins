@@ -16,7 +16,7 @@ Pre-funded payment channels — off-chain ledger, on-chain settlement. Category:
 ```bash
 pip install aimarket-channels
 aimarket serve
-curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-channels")'
+curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-channels")'
 ```
 
 ## Hub integration
@@ -44,7 +44,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.channels'
+curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.channels'
 ```
 
 ## More

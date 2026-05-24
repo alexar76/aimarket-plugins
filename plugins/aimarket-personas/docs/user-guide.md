@@ -16,7 +16,7 @@ Auto-generated AI agent personas for chat-native discovery. Category: **tooling*
 ```bash
 pip install aimarket-personas
 aimarket serve
-curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-personas")'
+curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-personas")'
 ```
 
 ## Hub integration
@@ -44,7 +44,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.personas'
+curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.personas'
 ```
 
 ## More

@@ -16,7 +16,7 @@ Pre/post-invoke safety classifier with constitutional contracts. Category: **sec
 ```bash
 pip install aimarket-safety
 aimarket serve
-curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-safety")'
+curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-safety")'
 ```
 
 ## Hub integration
@@ -43,7 +43,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.safety'
+curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.safety'
 ```
 
 ## More

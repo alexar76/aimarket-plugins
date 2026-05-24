@@ -16,7 +16,7 @@ Private RAG corpus exposed as paid search capability. Category: **monetization**
 ```bash
 pip install aimarket-data-cap
 aimarket serve
-curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-data-cap")'
+curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-data-cap")'
 ```
 
 ## Hub integration
@@ -44,7 +44,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.data-cap'
+curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.data-cap'
 ```
 
 ## More

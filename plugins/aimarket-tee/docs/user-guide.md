@@ -16,7 +16,7 @@ TEE-attested execution (AWS Nitro / Intel TDX). Category: **security**.
 ```bash
 pip install aimarket-tee
 aimarket serve
-curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-tee")'
+curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-tee")'
 ```
 
 ## Hub integration
@@ -43,7 +43,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.tee'
+curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.tee'
 ```
 
 ## More

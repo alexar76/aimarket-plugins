@@ -45,7 +45,7 @@ pip install aimarket-channels
 No configuration required — channels work immediately. Verify:
 
 ```bash
-curl -X POST http://localhost:9080/ai-market/v2/channel/open \
+curl -X POST http://localhost:9083/ai-market/v2/channel/open \
   -H "Content-Type: application/json" \
   -d '{"deposit_usd": 3.00}' | jq '.channel.channel_id'
 ```

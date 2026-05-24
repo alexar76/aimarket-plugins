@@ -47,7 +47,7 @@ The plugin auto-registers with the hub via setuptools entry point. No code chang
 Verify:
 ```bash
 aimarket serve
-curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-safety")'
+curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-safety")'
 ```
 
 ---
@@ -90,7 +90,7 @@ gate = SafetyGate(constitutional_contract=make_constitutional_contract(
 | `GET` | `/ai-market/v2/p/aimarket-safety/safety/constitutional` | List constitutional contracts for all capabilities |
 
 ```bash
-curl http://localhost:9080/ai-market/v2/p/aimarket-safety/safety/constitutional | jq .
+curl http://localhost:9083/ai-market/v2/p/aimarket-safety/safety/constitutional | jq .
 ```
 
 ```json

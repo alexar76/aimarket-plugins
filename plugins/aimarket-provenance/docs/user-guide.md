@@ -16,7 +16,7 @@ Cryptographic provenance receipts for every AI output (Ed25519 + W3C VC). Catego
 ```bash
 pip install -e aimarket-hub/plugins/aimarket-provenance
 aimarket serve
-curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="provenance")'
+curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="provenance")'
 ```
 
 ## Hub integration
@@ -45,7 +45,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.provenance'
+curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.provenance'
 ```
 
 ## More

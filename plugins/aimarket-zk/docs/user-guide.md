@@ -16,7 +16,7 @@ ZK proofs for private AI invocation. Category: **security**.
 ```bash
 pip install aimarket-zk
 aimarket serve
-curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-zk")'
+curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-zk")'
 ```
 
 ## Hub integration
@@ -45,7 +45,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.zk'
+curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.zk'
 ```
 
 ## More

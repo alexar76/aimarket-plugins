@@ -16,7 +16,7 @@ Real-time spot bidding for capability slots. Category: **monetization**.
 ```bash
 pip install aimarket-auction
 aimarket serve
-curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-auction")'
+curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-auction")'
 ```
 
 ## Hub integration
@@ -44,7 +44,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.auction'
+curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.auction'
 ```
 
 ## More
