@@ -4,8 +4,6 @@
 
 Every AI answer gets a cryptographic receipt — who, when, what model — verifiable later for compliance, disputes, and user trust. Like a fiscal receipt for AI output.
 
-**Простыми словами:** Каждый ответ AI получает криптографический чек — кто, когда, какая модель — можно проверить позже для compliance, споров и доверия. Как фискальный чек для результата AI.
-
 
 ## What it does
 

@@ -4,8 +4,6 @@
 
 Pay once into a prepaid tab, make dozens of tiny AI calls, settle once on-chain. No credit-card fee on every micro-cent — fast sessions for agents and apps.
 
-**Простыми словами:** Пополняете «вкладку» один раз, делаете десятки мелких вызовов AI, закрываете один раз on-chain. Без комиссии карты на каждую копейку — быстрые сессии для агентов и приложений.
-
 
 ## What it does
 

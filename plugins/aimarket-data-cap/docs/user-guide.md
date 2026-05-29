@@ -4,8 +4,6 @@
 
 Monetize private documents: others pay per search query, you never hand over raw files. Law firms, labs, and enterprises turn knowledge into revenue safely.
 
-**Простыми словами:** Монетизируете закрытые документы: другие платят за поиск, сырые файлы вы не отдаёте. Юрфирмы, лаборатории и компании превращают знания в доход безопасно.
-
 
 ## What it does
 

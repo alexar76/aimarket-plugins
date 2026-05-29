@@ -4,8 +4,6 @@
 
 Gives each capability a clear, buyer-friendly AI persona — so non-technical users understand what they're buying without reading API docs.
 
-**Простыми словами:** У каждой возможности появляется понятный «персонаж» AI — нетехническим пользователям ясно, что они покупают, без чтения API-документации.
-
 Full text: [docs/value.md](docs/value.md)
 
 
