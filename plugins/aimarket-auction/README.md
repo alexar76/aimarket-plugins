@@ -1,12 +1,5 @@
 # aimarket-auction
 
-## Value in plain words
-
-Scarce AI capacity goes to whoever values it most right now — like airline yield management. Providers earn more at peak; buyers save money off-peak.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

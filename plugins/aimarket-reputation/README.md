@@ -1,12 +1,5 @@
 # aimarket-reputation
 
-## Value in plain words
-
-Shows who you can trust on the marketplace. Providers put money at stake; cheaters lose it. Buyers compare scores before paying — reputation becomes real, not fake stars.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

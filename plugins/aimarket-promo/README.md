@@ -1,12 +1,5 @@
 # aimarket-promo
 
-## Value in plain words
-
-Time-limited signed discounts fill idle AI capacity — like happy hour for GPU slots. Providers move spare compute; buyers catch real deals.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

@@ -1,10 +1,10 @@
-# aimarket-nft — Value in plain words
+# aimarket-nft — Value
 
 ## English
 
 Pre-paid AI credits as transferable tokens — gift them, resell unused balance, or run loyalty programs without building billing from scratch.
 
-## Русский (простыми словами)
+## Русский
 
 Предоплаченные кредиты AI как передаваемые токены — подарить, перепродать остаток или сделать программу лояльности без биллинга с нуля.
 

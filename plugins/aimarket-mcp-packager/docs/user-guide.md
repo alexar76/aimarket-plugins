@@ -1,10 +1,5 @@
 # aimarket-mcp-packager — User Guide
 
-## Why it matters (plain words)
-
-Turns any marketplace capability into an MCP tool for Claude Desktop / Cursor in one step — authors reach agent users without hand-writing MCP servers.
-
-
 ## What it does
 
 Package capabilities as MCP servers for Claude Desktop. Category: **tooling**.
@@ -14,7 +9,7 @@ Package capabilities as MCP servers for Claude Desktop. Category: **tooling**.
 ```bash
 pip install aimarket-mcp-packager
 aimarket serve
-curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-mcp-packager")'
+curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-mcp-packager")'
 ```
 
 ## Hub integration
@@ -42,7 +37,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.mcp-packager'
+curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.mcp-packager'
 ```
 
 ## More

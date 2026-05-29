@@ -1,10 +1,5 @@
 # aimarket-safety — User Guide
 
-## Why it matters (plain words)
-
-Stops dangerous or manipulative prompts before they reach any AI provider. If a call is blocked, you get a signed receipt and your money back — the marketplace stays safe for everyone.
-
-
 ## What it does
 
 Pre/post-invoke safety classifier with constitutional contracts. Category: **security**.
@@ -14,7 +9,7 @@ Pre/post-invoke safety classifier with constitutional contracts. Category: **sec
 ```bash
 pip install aimarket-safety
 aimarket serve
-curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-safety")'
+curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-safety")'
 ```
 
 ## Hub integration
@@ -41,7 +36,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.safety'
+curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.safety'
 ```
 
 ## More

@@ -1,10 +1,5 @@
 # aimarket-reputation — User Guide
 
-## Why it matters (plain words)
-
-Shows who you can trust on the marketplace. Providers put money at stake; cheaters lose it. Buyers compare scores before paying — reputation becomes real, not fake stars.
-
-
 ## What it does
 
 Stake-bond + signed outcomes + dispute resolution. Category: **reputation**.
@@ -14,7 +9,7 @@ Stake-bond + signed outcomes + dispute resolution. Category: **reputation**.
 ```bash
 pip install aimarket-reputation
 aimarket serve
-curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-reputation")'
+curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-reputation")'
 ```
 
 ## Hub integration
@@ -42,7 +37,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.reputation'
+curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.reputation'
 ```
 
 ## More

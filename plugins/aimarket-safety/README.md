@@ -1,12 +1,5 @@
 # aimarket-safety
 
-## Value in plain words
-
-Stops dangerous or manipulative prompts before they reach any AI provider. If a call is blocked, you get a signed receipt and your money back — the marketplace stays safe for everyone.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

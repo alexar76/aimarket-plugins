@@ -1,12 +1,5 @@
 # aimarket-zk
 
-## Value in plain words
-
-Prove an AI ran correctly on secret input without revealing the input — for M&A, legal, and regulated workflows where showing the document is not an option.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

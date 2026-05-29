@@ -1,12 +1,5 @@
 # aimarket-data-cap
 
-## Value in plain words
-
-Monetize private documents: others pay per search query, you never hand over raw files. Law firms, labs, and enterprises turn knowledge into revenue safely.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

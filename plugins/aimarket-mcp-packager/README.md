@@ -1,12 +1,5 @@
 # aimarket-mcp-packager
 
-## Value in plain words
-
-Turns any marketplace capability into an MCP tool for Claude Desktop / Cursor in one step — authors reach agent users without hand-writing MCP servers.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

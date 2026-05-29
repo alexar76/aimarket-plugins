@@ -13,13 +13,6 @@ Infrastructure-layer plugin for [AIMarket Hub](../README.md). Auto-attaches a ta
 > ships provenance in-process by default; the package is the only edit
 > surface.
 
-## Value in plain words
-
-Every AI answer gets a cryptographic receipt — who, when, what model — verifiable later for compliance, disputes, and user trust. Like a fiscal receipt for AI output.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

@@ -1,10 +1,10 @@
-# aimarket-mcp-packager — Value in plain words
+# aimarket-mcp-packager — Value
 
 ## English
 
 Turns any marketplace capability into an MCP tool for Claude Desktop / Cursor in one step — authors reach agent users without hand-writing MCP servers.
 
-## Русский (простыми словами)
+## Русский
 
 Превращает возможность маркетплейса в MCP-инструмент для Claude Desktop / Cursor за один шаг — авторы доходят до пользователей агентов без ручного MCP-сервера.
 

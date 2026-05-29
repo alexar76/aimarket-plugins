@@ -1,10 +1,5 @@
 # aimarket-streaming — User Guide
 
-## Why it matters (plain words)
-
-Streams long AI answers token by token and charges fairly for what you actually read — stop early, pay less. Better for chat UIs and long reports.
-
-
 ## What it does
 
 SSE/WS streaming with per-chunk micro-billing. Category: **monetization**.
@@ -14,7 +9,7 @@ SSE/WS streaming with per-chunk micro-billing. Category: **monetization**.
 ```bash
 pip install aimarket-streaming
 aimarket serve
-curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-streaming")'
+curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-streaming")'
 ```
 
 ## Hub integration
@@ -41,7 +36,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.streaming'
+curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.streaming'
 ```
 
 ## More

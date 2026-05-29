@@ -1,12 +1,5 @@
 # aimarket-nft
 
-## Value in plain words
-
-Pre-paid AI credits as transferable tokens — gift them, resell unused balance, or run loyalty programs without building billing from scratch.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

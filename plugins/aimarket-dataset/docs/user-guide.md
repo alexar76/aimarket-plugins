@@ -1,10 +1,5 @@
 # aimarket-dataset — User Guide
 
-## Why it matters (plain words)
-
-Weekly anonymized snapshot of what the marketplace searches and buys — open data for researchers and builders who want to know demand trends without spying on users.
-
-
 ## What it does
 
 Weekly anonymized invocation corpus (CC-BY 4.0). Category: **tooling**.
@@ -14,7 +9,7 @@ Weekly anonymized invocation corpus (CC-BY 4.0). Category: **tooling**.
 ```bash
 pip install aimarket-dataset
 aimarket serve
-curl http://localhost:9083/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-dataset")'
+curl http://localhost:9080/ai-market/v2/plugins | jq '.plugins[] | select(.name=="aimarket-dataset")'
 ```
 
 ## Hub integration
@@ -42,7 +37,7 @@ See plugin README for environment variables. Common hub vars:
 ## Verify loaded
 
 ```bash
-curl http://localhost:9083/.well-known/ai-market.json | jq '.plugin_extensions.dataset'
+curl http://localhost:9080/.well-known/ai-market.json | jq '.plugin_extensions.dataset'
 ```
 
 ## More

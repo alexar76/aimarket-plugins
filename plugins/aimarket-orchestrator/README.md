@@ -1,12 +1,5 @@
 # aimarket-orchestrator
 
-## Value in plain words
-
-Describe a goal in plain language; the hub plans which AI capabilities to call in what order and estimates cost before spending — autopilot for multi-step tasks.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

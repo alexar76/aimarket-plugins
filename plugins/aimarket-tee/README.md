@@ -1,12 +1,5 @@
 # aimarket-tee
 
-## Value in plain words
-
-Runs sensitive AI inside secure hardware so even the server owner cannot read your input. You get a hardware attestation — proof the right code ran in a protected enclave.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

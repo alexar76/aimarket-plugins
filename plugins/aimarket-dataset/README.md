@@ -1,12 +1,5 @@
 # aimarket-dataset
 
-## Value in plain words
-
-Weekly anonymized snapshot of what the marketplace searches and buys — open data for researchers and builders who want to know demand trends without spying on users.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

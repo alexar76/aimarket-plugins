@@ -5,14 +5,14 @@
 ```python
 import requests
 
-HUB = "http://localhost:9083"  # or https://modelmarket.dev
+HUB = "http://localhost:9080"  # or https://modelmarket.dev
 
 # 1. Confirm plugin is loaded
 plugins = requests.get(f"{HUB}/ai-market/v2/plugins").json()
 assert any(p["name"] == "aimarket-safety" for p in plugins["plugins"])
 
 # 2. Example call
-curl http://localhost:9083/ai-market/v2/invoke \
+curl http://localhost:9080/ai-market/v2/invoke \
   -H "Content-Type: application/json" \
   -d '{"product_id":"prod-demo","capability_id":"translate@v1","input":{"text":"hello"}}'
 # Blocked requests return signed rejection receipt + automatic channel refund

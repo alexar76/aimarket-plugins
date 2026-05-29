@@ -1,12 +1,5 @@
 # aimarket-channels
 
-## Value in plain words
-
-Pay once into a prepaid tab, make dozens of tiny AI calls, settle once on-chain. No credit-card fee on every micro-cent — fast sessions for agents and apps.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

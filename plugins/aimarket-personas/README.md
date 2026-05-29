@@ -1,12 +1,5 @@
 # aimarket-personas
 
-## Value in plain words
-
-Gives each capability a clear, buyer-friendly AI persona — so non-technical users understand what they're buying without reading API docs.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |

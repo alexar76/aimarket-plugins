@@ -1,12 +1,5 @@
 # aimarket-streaming
 
-## Value in plain words
-
-Streams long AI answers token by token and charges fairly for what you actually read — stop early, pay less. Better for chat UIs and long reports.
-
-Full text: [docs/value.md](docs/value.md)
-
-
 ## Documentation
 
 | Document | Description |
