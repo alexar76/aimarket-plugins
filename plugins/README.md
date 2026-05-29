@@ -1,5 +1,7 @@
 # AIMarket Hub Plugins
 
+> **Ecosystem:** [AICOM overview & live demos](https://alexar76.github.io/aicom/)
+
 **15 protocol plugins** extend hub invoke, settlement, compliance, and data planes without forking core.
 
 ## Killer feature — TEE Escrow
