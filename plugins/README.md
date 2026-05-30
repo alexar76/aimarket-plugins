@@ -20,7 +20,7 @@
 |--------|------|
 | [aimarket-safety](aimarket-safety/) | Pre-invoke policy, signed reject |
 | [aimarket-tee](aimarket-tee/) | TEE attestation, escrow hooks |
-| [aimarket-provenance](aimarket-provenance/) | W3C VC invoke receipts |
+| [aimarket-provenance](../aimarket-hub/plugins/aimarket-provenance/) | W3C VC invoke receipts |
 | [aimarket-reputation](aimarket-reputation/) | Scores + stake bonds |
 | [aimarket-channels](aimarket-channels/) | USDT channel lifecycle |
 | [aimarket-auction](aimarket-auction/) | Price discovery |

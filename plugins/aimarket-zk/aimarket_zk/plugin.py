@@ -10,6 +10,7 @@ from typing import Deque
 from aimarket_hub.plugin import HubPlugin
 
 _PROVE_WINDOW_SEC = 60
+_MAX_TRACKED_KEYS = 4096
 _prove_attempts: dict[str, Deque[float]] = defaultdict(deque)
 
 
@@ -19,6 +20,17 @@ def _prove_rate_limit_per_minute() -> int:
         return max(1, int(raw))
     except ValueError:
         return 12
+
+
+def _prune_expired(now: float) -> None:
+    # Bound memory: an attacker rotating through many client keys would otherwise
+    # leave one deque per key forever. Only sweep once the table exceeds a cap so
+    # the hot path stays O(1).
+    if len(_prove_attempts) <= _MAX_TRACKED_KEYS:
+        return
+    stale = [k for k, w in _prove_attempts.items() if not w or now - w[-1] > _PROVE_WINDOW_SEC]
+    for k in stale:
+        _prove_attempts.pop(k, None)
 
 
 def _enforce_prove_rate_limit(client_key: str) -> None:
@@ -31,12 +43,27 @@ def _enforce_prove_rate_limit(client_key: str) -> None:
     if len(window) >= _prove_rate_limit_per_minute():
         raise HTTPException(status_code=429, detail="ZK prove rate limit exceeded")
     window.append(now)
+    _prune_expired(now)
+
+
+def _trust_forwarded_for() -> bool:
+    return (os.environ.get("AIMARKET_ZK_TRUST_FORWARDED_FOR") or "").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+        "on",
+    )
 
 
 def _client_key_from_request(request) -> str:
-    forwarded = (request.headers.get("x-forwarded-for") or "").split(",")[0].strip()
-    if forwarded:
-        return forwarded
+    # X-Forwarded-For is client-controlled and trivially spoofable, so trusting it
+    # unconditionally lets an attacker rotate the header to evade the rate limit.
+    # Only honour it when explicitly deployed behind a trusted proxy; otherwise use
+    # the real socket peer.
+    if _trust_forwarded_for():
+        forwarded = (request.headers.get("x-forwarded-for") or "").split(",")[0].strip()
+        if forwarded:
+            return forwarded
     if request.client and request.client.host:
         return request.client.host
     return "unknown"
