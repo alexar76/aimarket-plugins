@@ -1,0 +1,7 @@
+{
+  "maintainers": ["alexar76"],
+  "name": "aimarket-mcp-packager",
+  "description": "Package AIMarket capabilities as self-hosted MCP servers (Docker + manifest + Claude Desktop config).",
+  "dockerfile": "Dockerfile",
+  "command": ["python", "mcp_stdio_server.py"]
+}
