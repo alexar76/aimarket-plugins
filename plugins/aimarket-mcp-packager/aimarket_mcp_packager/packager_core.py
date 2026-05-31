@@ -3,8 +3,22 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass, field
 from typing import Any
+
+_SLUG_RE = re.compile(r"[^a-z0-9._-]+")
+
+
+def _slug(value: str, fallback: str = "mcp") -> str:
+    """Constrain free-text to a docker/compose-safe token.
+
+    ``name`` and ``registry`` flow into image tags and the docker-compose /
+    Dockerfile text templates. Without this, a value containing newlines or
+    YAML metacharacters could inject extra compose keys (e.g. ``privileged``).
+    """
+    slug = _SLUG_RE.sub("-", (value or "").strip().lower()).strip("-._")
+    return slug or fallback
 
 
 @dataclass
@@ -36,7 +50,9 @@ class MCPPackager:
         registry: str = "aifactory",
     ) -> MCPServerPackage:
         del price_per_call_usd
-        image_name = f"{registry}/{name.lower()}"
+        safe_name = _slug(name)
+        safe_registry = _slug(registry, "aifactory")
+        image_name = f"{safe_registry}/{safe_name}"
         image_tag = f"{image_name}:2.0.0"
         mcp_manifest = {
             "protocol": "mcp",
@@ -63,19 +79,19 @@ class MCPPackager:
             },
         }
         docker_compose = (
-            f"{name.lower()}:\n"
+            f"{safe_name}:\n"
             f"  image: {image_tag}\n"
             f"  ports:\n"
             f"    - '3100:3100'\n"
             f"  environment:\n"
-            f"    - MCP_SERVER_NAME={name}\n"
+            f"    - MCP_SERVER_NAME={safe_name}\n"
             f"    - AIFACTORY_LICENSE_KEY=${{AIFACTORY_LICENSE_KEY}}\n"
             f"  restart: unless-stopped"
         )
         connection_string = json.dumps(
             {
                 "mcpServers": {
-                    name.lower(): {
+                    safe_name: {
                         "command": "docker",
                         "args": ["run", "-d", "-p", "3100:3100", image_tag],
                         "env": {"AIFACTORY_LICENSE_KEY": "${AIFACTORY_LICENSE_KEY}"},
