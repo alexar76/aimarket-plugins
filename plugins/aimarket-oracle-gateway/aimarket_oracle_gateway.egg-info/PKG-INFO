@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: aimarket-oracle-gateway
+Version: 0.1.0
+Summary: AIMarket Oracle Gateway — verifiable oracle services (Platon/Chronos/LUMEN) as MCP tools
+Requires-Python: >=3.10
+License-File: LICENSE
+Requires-Dist: mcp<4,>=1.6
+Requires-Dist: httpx>=0.27
+Requires-Dist: pydantic>=2
+Dynamic: license-file

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": ["alexar76"],
+  "name": "aimarket-oracle-gateway",
+  "description": "MCP server (Model Context Protocol, stdio): verifiable oracle services for AI agents — Platon VRF (Ed25519-signed unbiasable randomness), Chronos VDF (verifiable delay / proof-of-elapsed-time), LUMEN reputation (PageRank/EigenTrust trust scores). Pay-per-call over the AIMarket protocol, no signup; every result is independently verifiable. Tools: get_random, get_randomness_beacon, ask_oracle, compute_vdf, verify_vdf, get_reputation_scores, list_oracle_capabilities.",
+  "dockerfile": "Dockerfile",
+  "command": ["python", "mcp_stdio_server.py"]
+}

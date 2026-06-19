@@ -1,0 +1,8 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": ["alexar76"],
+  "name": "aimarket-mcp-packager",
+  "description": "MCP server (Model Context Protocol, stdio): package AIMarket capabilities as Docker + MCP manifest + Claude Desktop config. Tools: package_capability, generate_dockerfile, generate_claude_desktop_config.",
+  "dockerfile": "Dockerfile",
+  "command": ["python", "mcp_stdio_server.py"]
+}

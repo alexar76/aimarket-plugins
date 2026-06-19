@@ -1,0 +1,2 @@
+aimarket_oracle_gateway
+mcp_stdio_server
