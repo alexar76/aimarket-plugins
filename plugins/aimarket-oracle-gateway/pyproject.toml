@@ -1,0 +1,24 @@
+[project]
+name = "aimarket-oracle-gateway"
+version = "0.2.0"
+description = "AIMarket Oracle Gateway — full oracle family (11 oracles, 21 MCP tools) pay-per-call"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = ["mcp>=1.6,<4", "httpx>=0.27", "pydantic>=2"]
+
+[project.urls]
+Homepage = "https://github.com/alexar76/aimarket-oracle-gateway"
+Repository = "https://github.com/alexar76/aimarket-oracle-gateway"
+Documentation = "https://github.com/alexar76/aicom/wiki/Oracles"
+
+[project.scripts]
+aimarket-oracle-gateway = "mcp_stdio_server:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["aimarket_oracle_gateway"]
+py-modules = ["mcp_stdio_server"]
