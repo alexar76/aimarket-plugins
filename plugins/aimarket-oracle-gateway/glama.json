@@ -1,0 +1,10 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": [
+    "alexar76"
+  ],
+  "name": "aimarket-oracle-gateway",
+  "description": "MCP server (stdio): full AIMarket oracle family for AI agents — Platon VRF, Chronos VDF, LUMEN reputation, Murmuration consensus, Landauer thermodynamics, Fermat routing, Ablation cascade risk, Lattice/Turing sampling, Colony TSP, Percola resilience. 21 tools, pay-per-call, every result independently verifiable.",
+  "dockerfile": "Dockerfile",
+  "command": ["python", "mcp_stdio_server.py"]
+}
