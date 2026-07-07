@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.alexar76/aimarket-plugins",
+  "title": "AIMarket MCP Packager",
+  "description": "MCP (stdio) server that packages AIMarket hub capabilities into self-hosted MCP server products — Docker image metadata, MCP manifest, and Claude Desktop config. Part of the 15-plugin AIMarket Hub suite.",
+  "repository": {
+    "url": "https://github.com/alexar76/aimarket-plugins",
+    "source": "github"
+  },
+  "version": "2.0.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "aimarket-mcp-packager",
+      "version": "2.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "AIMARKET_HUB_URL",
+          "description": "AIMarket Hub base URL",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}
