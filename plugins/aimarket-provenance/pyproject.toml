@@ -1,0 +1,55 @@
+[build-system]
+# >=77: 75.x and 76.x reject a PEP 639 SPDX `license` string outright.
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aimarket-provenance"
+# Raised to match the version this plugin reports to the hub catalogue. The class said
+# 1.1.0 while the dist said 1.0.0, so the live hub advertised a version PyPI would never
+# have — anyone reading the catalogue and pinning it would get nothing.
+version = "1.1.0"
+description = "AI Provenance Layer — cryptographic receipts for AI outputs with verifiable origin"
+# The README exists next to this file and was simply never declared, so the package built with no
+# long_description at all — it would have published with a blank PyPI page. `twine check --strict`
+# in scripts/publish_pypi.sh is what surfaced it; plain `twine check` passes this silently.
+readme = "README.md"
+# PEP 639 SPDX expression, not the legacy `{text = ...}` table, which emits a
+# deprecated free-text License: field instead of License-Expression:.
+license = "Apache-2.0"
+requires-python = ">=3.11"
+dependencies = [
+    "aimarket-hub>=3.0",
+    "pydantic>=2.10",
+]
+
+# Added before the first publish. None of these existed, so every plugin would have shipped a
+# PyPI page with an empty sidebar — no Homepage, no Repository, no Issues, no author — matching
+# zero classifier facets. All four URLs point at the satellite that actually holds this code;
+# there is no per-plugin GitHub repo, and inventing one would repeat the 404 Repository link
+# already caught in this batch.
+authors = [{ name = "AI-Factory", email = "dev@modelmarket.dev" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/alexar76/aimarket-plugins"
+Documentation = "https://github.com/alexar76/aimarket-plugins/tree/main/plugins/aimarket-provenance#readme"
+Repository = "https://github.com/alexar76/aimarket-plugins"
+Issues = "https://github.com/alexar76/aimarket-plugins/issues"
+
+[project.entry-points."aimarket.plugins"]
+provenance = "aimarket_provenance.plugin:ProvenancePlugin"
+
+[tool.setuptools.packages.find]
+include = ["aimarket_provenance*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
