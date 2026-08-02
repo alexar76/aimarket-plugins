@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Plugin tree layout
+        run: |
+          test -d plugins
+          count="$(find plugins -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')"
+          test "$count" -ge 5
+          echo "Found $count plugin packages"
+
+      - name: Compile plugin Python sources
+        run: python3 -m compileall -q plugins
+
+      - name: MCP packager README mentions Model Context Protocol
+        run: grep -qi "Model Context Protocol" plugins/aimarket-mcp-packager/README.md
+
+      - name: Smoke coverage badge
+        run: bash scripts/ci_static_badge.sh smoke ok
