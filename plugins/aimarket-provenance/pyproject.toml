@@ -1,0 +1,81 @@
+[build-system]
+# >=77: 75.x and 76.x reject a PEP 639 SPDX `license` string outright.
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aimarket-provenance"
+# Must match ProvenancePlugin.version exactly. The class once said 1.1.0 while the dist
+# said 1.0.0, so the live hub advertised a version PyPI would never have — anyone reading
+# the catalogue and pinning it would get nothing. 2.0.0 is a major bump because the
+# receipt format changed: this release issues AWR/2 and no longer issues AWR/1.
+version = "2.0.0"
+description = "AI Provenance Layer — AWR/2 work receipts for AI outputs (W3C VC, eddsa-jcs-2022, RFC 8785, did:key)"
+# The README exists next to this file and was simply never declared, so the package built with no
+# long_description at all — it would have published with a blank PyPI page. `twine check --strict`
+# in scripts/publish_pypi.sh is what surfaced it; plain `twine check` passes this silently.
+readme = "README.md"
+# PEP 639 SPDX expression, not the legacy `{text = ...}` table, which emits a
+# deprecated free-text License: field instead of License-Expression:.
+license = "Apache-2.0"
+# Follows aimarket-hub, which requires >=3.11. The plugin's own modules are written to
+# 3.9 syntax (`from __future__ import annotations` everywhere, no match statements, no
+# 3.10+ stdlib) so that they can be exercised against an older interpreter, but the
+# installed dependency set cannot be.
+requires-python = ">=3.11"
+dependencies = [
+    "aimarket-hub>=3.0",
+    # `aimarket_provenance/api.py` does `from fastapi import APIRouter, Header, HTTPException`
+    # at module import time, and this was undeclared: the import worked only because
+    # aimarket-hub happens to pull fastapi in. If the hub ever moves fastapi behind an extra,
+    # `import aimarket_provenance.plugin` breaks with an ImportError whose cause the metadata
+    # gives no hint about. Floor matches the hub's own so the two cannot disagree.
+    "fastapi>=0.115",
+    # `pydantic>=2.10` was declared here and imported by nothing -- grep of every shipped module
+    # finds no `pydantic` and no `BaseModel`. A floor for a package the code does not use only
+    # constrains a resolver for no reason, so it is gone; pydantic still arrives via the hub for
+    # anyone who needs it.
+    # The AWR/2 reference implementation. This plugin issues and verifies AWR/2 documents
+    # and implements none of the format itself: RFC 8785 canonicalization (SPEC.md §4),
+    # the eddsa-jcs-2022 proof (§6) and did:key derivation (§5) are all in `awr`.
+    #
+    # Pinned to the 2.x line, not ">=2.0": SPEC.md §6.4 makes `cryptosuite` the only
+    # agility point and states that a future version adding a suite will register a new
+    # `awrVersion` MAJOR, which a verifier MUST reject rather than skip the proof
+    # (§3.1, AWR-DOC-009). Resolving `awr` 3.x here would therefore install an
+    # implementation whose documents this plugin's own verifier must refuse.
+    #
+    # The import is not optional and has no fallback — see aimarket_provenance/_awr.py.
+    "awr>=2.0,<3",
+]
+
+# Added before the first publish. None of these existed, so every plugin would have shipped a
+# PyPI page with an empty sidebar — no Homepage, no Repository, no Issues, no author — matching
+# zero classifier facets. All four URLs point at the satellite that actually holds this code;
+# there is no per-plugin GitHub repo, and inventing one would repeat the 404 Repository link
+# already caught in this batch.
+authors = [{ name = "AI-Factory", email = "dev@modelmarket.dev" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/alexar76/aimarket-plugins"
+Documentation = "https://github.com/alexar76/aimarket-plugins/tree/main/plugins/aimarket-provenance#readme"
+Repository = "https://github.com/alexar76/aimarket-plugins"
+Issues = "https://github.com/alexar76/aimarket-plugins/issues"
+
+[project.entry-points."aimarket.plugins"]
+provenance = "aimarket_provenance.plugin:ProvenancePlugin"
+
+[tool.setuptools.packages.find]
+include = ["aimarket_provenance*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
