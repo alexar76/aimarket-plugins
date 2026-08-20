@@ -1,0 +1,45 @@
+[build-system]
+# >=77: 75.x and 76.x reject a PEP 639 SPDX `license` string outright.
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aimarket-streaming"
+version = "2.0.0"
+description = "SSE/WS streaming + per-chunk billing with micro-receipts"
+# PEP 639 SPDX expression, not the legacy `{text = ...}` table, which emits a
+# deprecated free-text License: field instead of License-Expression:.
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["aimarket-hub>=2.0.0"]
+
+# Added before the first publish. None of these existed, so every plugin would have shipped a
+# PyPI page with an empty sidebar — no Homepage, no Repository, no Issues, no author — matching
+# zero classifier facets. All four URLs point at the satellite that actually holds this code;
+# there is no per-plugin GitHub repo, and inventing one would repeat the 404 Repository link
+# already caught in this batch.
+authors = [{ name = "AI-Factory", email = "dev@modelmarket.dev" }]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/alexar76/aimarket-plugins"
+Documentation = "https://github.com/alexar76/aimarket-plugins/tree/main/plugins/aimarket-streaming#readme"
+Repository = "https://github.com/alexar76/aimarket-plugins"
+Issues = "https://github.com/alexar76/aimarket-plugins/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.entry-points."aimarket.plugins"]
+streaming = "aimarket_streaming.plugin:StreamingPlugin"
+
+[tool.setuptools.packages.find]
+include = ["aimarket_streaming*"]
