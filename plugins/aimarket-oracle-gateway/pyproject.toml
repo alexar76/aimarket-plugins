@@ -1,0 +1,36 @@
+[project]
+name = "aimarket-oracle-gateway"
+# The stdio server lives INSIDE the package, not as a top-level `mcp_stdio_server` module.
+# Three distributions here shipped that same top-level name — aimarket-mcp, aimarket-oracle-gateway
+# and (by entry point only) aimarket-mcp-packager — and all three are published, so installing any
+# two into one environment made one silently overwrite the other's server. Measured 2026-07-31:
+# with aimarket-mcp-packager and aimarket-oracle-gateway both installed, `mcp_stdio_server.py` in
+# site-packages was the gateway's 15 897-byte file, so `aimarket-mcp-packager-mcp` launched the
+# ORACLE GATEWAY. And packager alone was worse: its console script named a module its own wheel
+# never contained, so a clean `pip install aimarket-mcp-packager` produced a script that died on
+# `from mcp_stdio_server import main`.
+#
+# Console-script NAMES are unchanged, so every Claude Desktop / Glama config keeps working — only
+# the module path behind them moved. A compatibility shim would have re-created the collision, so
+# there is none: `import mcp_stdio_server` is gone deliberately.
+version = "0.3.0"
+description = "AIMarket Oracle Gateway — full oracle family (17 oracles, 35 MCP tools) pay-per-call"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = ["mcp>=1.6,<4", "httpx>=0.27", "pydantic>=2"]
+
+[project.urls]
+Homepage = "https://github.com/alexar76/aimarket-oracle-gateway"
+Repository = "https://github.com/alexar76/aimarket-oracle-gateway"
+Documentation = "https://github.com/alexar76/aicom/wiki/Oracles"
+
+[project.scripts]
+aimarket-oracle-gateway = "aimarket_oracle_gateway.stdio_server:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["aimarket_oracle_gateway"]
