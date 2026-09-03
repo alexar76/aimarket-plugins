@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aimarket-reputation"
+# Bumped because the tree diverged from the published 2.0.0 wheel: `pip install
+# aimarket-reputation==2.0.0` served code this tree had already moved past, at the same version
+# string, so every fix in it was unpublishable and unreachable.
+version = "2.0.1"
+description = "Stake-bond + signed reputation events with on-chain settlement"
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["aimarket-hub>=3.0.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.entry-points."aimarket.plugins"]
+reputation = "aimarket_reputation.plugin:ReputationPlugin"
+
+[tool.setuptools.packages.find]
+include = ["aimarket_reputation*"]
