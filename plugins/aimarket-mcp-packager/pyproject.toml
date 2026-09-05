@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aimarket-mcp-packager"
+# The stdio server lives INSIDE the package, not as a top-level `mcp_stdio_server` module.
+# Three distributions here shipped that same top-level name — aimarket-mcp, aimarket-oracle-gateway
+# and (by entry point only) aimarket-mcp-packager — and all three are published, so installing any
+# two into one environment made one silently overwrite the other's server. Measured 2026-07-31:
+# with aimarket-mcp-packager and aimarket-oracle-gateway both installed, `mcp_stdio_server.py` in
+# site-packages was the gateway's 15 897-byte file, so `aimarket-mcp-packager-mcp` launched the
+# ORACLE GATEWAY. And packager alone was worse: its console script named a module its own wheel
+# never contained, so a clean `pip install aimarket-mcp-packager` produced a script that died on
+# `from mcp_stdio_server import main`.
+#
+# Console-script NAMES are unchanged, so every Claude Desktop / Glama config keeps working — only
+# the module path behind them moved. A compatibility shim would have re-created the collision, so
+# there is none: `import mcp_stdio_server` is gone deliberately.
+# 2.1.1: the published 2.1.0 wheel carries a plugin.py whose class `version` still said
+# 2.0.0, so the hub catalogue advertised 2.0.0 for an installed 2.1.0. Correcting the
+# class attribute changes a shipped file, which is a new release, not a re-publish.
+version = "2.1.1"
+description = "Package products as ready-to-run MCP servers for Claude Desktop"
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["aimarket-hub>=3.0.0"]
+
+[project.optional-dependencies]
+# Ceiling is `<2`, not `<4`: mcp 2.x renamed FastMCP to MCPServer and made
+# `mcp/server/fastmcp.py` a stub that RAISES ModuleNotFoundError on import
+# ("pin 'mcp<2' to keep running v1 code"). `stdio_server.py` does
+# `from mcp.server.fastmcp import FastMCP`, so `<4` resolved a fresh install to
+# mcp 2.x and the stdio server died on its first import.
+mcp = ["mcp>=1.6,<2"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+aimarket-mcp-packager-mcp = "aimarket_mcp_packager.stdio_server:main"
+
+[project.entry-points."aimarket.plugins"]
+mcp-packager = "aimarket_mcp_packager.plugin:MCPPlugin"
+
+[tool.setuptools.packages.find]
+include = ["aimarket_mcp_packager*"]
