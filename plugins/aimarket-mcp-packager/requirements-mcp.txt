@@ -1,0 +1,6 @@
+# Official MCP Python SDK for the stdio server (FastMCP).
+# Ceiling MUST stay <2: mcp 2.x renames FastMCP → MCPServer and makes
+# `from mcp.server.fastmcp import FastMCP` raise ModuleNotFoundError.
+# Glama's unscoped `install mcp` pulls 2.x — always install from this file
+# (or run scripts/glama_install.sh) so the pin wins.
+mcp>=1.6,<2

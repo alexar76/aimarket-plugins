@@ -1,0 +1,67 @@
+name: freshness
+
+# Keeps the Glama "maintenance" signal fresh WITHOUT faking activity:
+# on every mirror sync push, cut a dated GitHub Release *only if* plugin
+# content actually changed since the last release. No-op when nothing
+# changed, so it never spams empty releases.
+#
+# Tag scheme is `sync-*` (never `v*`) on purpose: it is a GitHub Release for
+# the registry's recency signal, NOT a package version — so it can never be
+# caught by a `v*`-triggered PyPI publish workflow, now or in the future.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: freshness
+  cancel-in-progress: false
+
+jobs:
+  release-on-change:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Cut a sync release if plugins changed since the last release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          # Most recent existing release tag (any prefix), else the first commit.
+          last_tag="$(gh release list --limit 1 --json tagName --jq '.[0].tagName' 2>/dev/null || true)"
+          if [ -n "${last_tag}" ] && git rev-parse -q --verify "refs/tags/${last_tag}" >/dev/null; then
+            base="${last_tag}"
+          else
+            base="$(git rev-list --max-parents=0 HEAD | tail -1)"
+          fi
+          echo "Comparing plugins/ between ${base} and HEAD"
+
+          if git diff --quiet "${base}" HEAD -- plugins; then
+            echo "No plugin changes since ${base} — skipping release."
+            exit 0
+          fi
+
+          date_tag="sync-$(date -u +%Y.%m.%d-%H%M)"
+          changed="$(git diff --name-only "${base}" HEAD -- plugins \
+                       | awk -F/ 'NF>=2{print $2}' | sort -u | sed 's/^/- /')"
+          {
+            echo "Automated freshness release — plugin content changed since \`${base}\`."
+            echo
+            echo "Changed plugin paths:"
+            echo "${changed:-- (multiple)}"
+            echo
+            echo "_GitHub Release only — no PyPI publish. Keeps the registry maintenance signal current._"
+          } > notes.md
+
+          gh release create "${date_tag}" \
+            --title "Plugins sync — $(date -u +%Y-%m-%d)" \
+            --notes-file notes.md
+          echo "Created release ${date_tag}"
