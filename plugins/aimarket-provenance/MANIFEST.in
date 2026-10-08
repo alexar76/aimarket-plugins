@@ -1,0 +1,8 @@
+# setuptools' default sdist rules pick up `test_*.py` and nothing else from tests/, so the
+# 2.0.0 sdist shipped six test modules without `conftest.py` or `__init__.py`. Anyone who
+# validates an sdist the way distro and conda packagers do -- unpack, run the bundled suite --
+# got "attempted relative import with no known parent package" from
+# `from .conftest import build_awr1_document`, two collection errors and zero tests run. That
+# reads as a broken release rather than a packaging omission. With the two files restored the
+# same suite is 120 passed.
+recursive-include tests *.py
