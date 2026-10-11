@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aimarket-safety"
+# Bumped because the tree diverged from the published 2.0.0 wheel: `pip install
+# aimarket-safety==2.0.0` served code this tree had already moved past, at the same version
+# string, so every fix in it was unpublishable and unreachable.
+version = "2.0.1"
+description = "AIMarket Hub plugin: pre/post-invoke safety classifier with constitutional contracts"
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["aimarket-hub>=3.0.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.entry-points."aimarket.plugins"]
+safety = "aimarket_safety.plugin:SafetyPlugin"
+
+[tool.setuptools.packages.find]
+include = ["aimarket_safety*"]
