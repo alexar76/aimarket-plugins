@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security policy
+    url: mailto:alexar76@rambler.ru
+    about: Report vulnerabilities responsibly (see SECURITY.md in this repository)
+  - name: Ecosystem docs
+    url: https://modeldev.modelmarket.dev
+    about: AI-Factory + AIMarket overview and live demos
+issue_templates:
+  - name: Bug report
+    description: Something is broken or incorrect
+    labels: ["bug"]
+    filename: bug_report.yml
+  - name: Feature request
+    description: Propose an improvement
+    labels: ["enhancement"]
+    filename: feature_request.yml
