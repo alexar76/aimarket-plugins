@@ -4,7 +4,7 @@
 
 <!-- aicom-readme-badges -->
 <p align="center">
-  <a href="https://github.com/alexar76/aimarket-oracle-gateway/actions/workflows/ci.yml"><img src="docs/badges/ci.svg" alt="CI" /></a>
+  <a href="https://github.com/alexar76/aimarket-oracle-gateway/actions/workflows/ci.yml"><img src="https://github.com/alexar76/aimarket-oracle-gateway/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://glama.ai/mcp/servers/alexar76/aimarket-oracle-gateway"><img src="https://glama.ai/mcp/servers/alexar76/aimarket-oracle-gateway/badges/score.svg" alt="aimarket-oracle-gateway MCP server" /></a>
   <a href="docs/badges/coverage.svg"><img src="docs/badges/coverage.svg" alt="Test coverage" /></a>
   <a href="LICENSE"><img src="docs/badges/license.svg" alt="License: MIT" /></a>

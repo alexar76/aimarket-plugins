@@ -6,7 +6,7 @@ Admin Dockerfile form: [glama.ai/mcp/servers/alexar76/aimarket-plugins/admin/doc
 
 ## What Glama runs
 
-Glama **generates** its own image (clone into `/app`, wrap CMD with `mcp-proxy --`). The repo-root [`Dockerfile`](../../Dockerfile) (from `Dockerfile.root-context` on publish) is for local/self-host only.
+Glama **generates** its own image (clone into `/app`, wrap CMD with `mcp-proxy --`). The repo-root [`Dockerfile`](https://github.com/alexar76/aimarket-plugins/blob/main/Dockerfile) (from `Dockerfile.root-context` on publish) is for local/self-host only.
 
 Health check: container starts and answers JSON-RPC `initialize` + `tools/list` over **stdio**.
 
