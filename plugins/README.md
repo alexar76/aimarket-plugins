@@ -6,12 +6,12 @@
 <p align="center">
   [![CI](https://github.com/alexar76/aimarket-plugins/actions/workflows/ci.yml/badge.svg)](https://github.com/alexar76/aimarket-plugins/actions/workflows/ci.yml)
   <a href="#testing--coverage"><img src="docs/badges/coverage.svg" alt="Test coverage" /></a>
-  [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+  [![License: MIT AND Apache-2.0](https://img.shields.io/badge/License-MIT%20AND%20Apache--2.0-blue.svg)](LICENSE)
 </p>
 <!-- /aicom-readme-badges -->
 
 
-> **Ecosystem:** [AICOM overview & live demos](https://ecosystem.modelmarket.dev/) · **Community:** [Discord · Pollux](https://discord.gg/aimarket) · [Telegram · Castor](https://t.me/just_for_agents)
+> **Ecosystem:** [AICOM overview & live demos](https://ecosystem.modelmarket.dev/) · **Community:** [Discord · Pollux](https://discord.gg/JjWxGhW9pP) · [Telegram · Castor](https://t.me/just_for_agents)
 
 **15 protocol plugins** extend hub invoke, settlement, compliance, and data planes without forking core.
 
@@ -104,7 +104,7 @@ The [DIOSCURI](https://github.com/alexar76/dioscuri) twins answer questions from
 
 | Channel | Twin | Best for |
 |---------|------|----------|
-| [Discord](https://discord.gg/aimarket) | Pollux | Help, ideas, show-and-tell |
+| [Discord](https://discord.gg/JjWxGhW9pP) | Pollux | Help, ideas, show-and-tell |
 | [Telegram](https://t.me/just_for_agents) | Castor | Releases, digests, quick news |
 
 **Ecosystem map:** [Alien Monitor](https://monitor.modelmarket.dev/) · [AICOM](https://magic-ai-factory.com)

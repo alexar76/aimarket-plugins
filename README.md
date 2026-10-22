@@ -14,11 +14,11 @@
   <a href="https://github.com/alexar76/aimarket-plugins/actions/workflows/ci.yml"><img src="https://github.com/alexar76/aimarket-plugins/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://glama.ai/mcp/servers/alexar76/aimarket-plugins"><img src="https://glama.ai/mcp/servers/alexar76/aimarket-plugins/badges/score.svg" alt="aimarket-plugins MCP server" /></a>
   <a href="https://raw.githubusercontent.com/alexar76/aimarket-plugins/refs/heads/main/docs/badges/coverage.svg"><img src="https://raw.githubusercontent.com/alexar76/aimarket-plugins/refs/heads/main/docs/badges/coverage.svg" alt="Test coverage" /></a>
-  <a href="https://github.com/alexar76/aimarket-plugins/blob/main/LICENSE"><img src="https://raw.githubusercontent.com/alexar76/aimarket-plugins/refs/heads/main/docs/badges/license.svg" alt="License: Apache-2.0" /></a>
+  <a href="https://github.com/alexar76/aimarket-plugins/blob/main/LICENSE"><img src="https://raw.githubusercontent.com/alexar76/aimarket-plugins/refs/heads/main/docs/badges/license.svg" alt="License: MIT AND Apache-2.0" /></a>
 </p>
 <!-- /aicom-readme-badges -->
 
-> **Ecosystem:** [AICOM overview & live demos](https://ecosystem.modelmarket.dev/) · **Community:** [Discord · Pollux](https://discord.gg/aimarket) · [Telegram · Castor](https://t.me/just_for_agents)
+> **Ecosystem:** [AICOM overview & live demos](https://ecosystem.modelmarket.dev/) · **Community:** [Discord · Pollux](https://discord.gg/JjWxGhW9pP) · [Telegram · Castor](https://t.me/just_for_agents)
 
 **15 protocol plugins** extend hub invoke, settlement, compliance, and data planes without forking core.
 
@@ -111,7 +111,7 @@ The [DIOSCURI](https://github.com/alexar76/dioscuri) twins answer questions from
 
 | Channel | Twin | Best for |
 |---------|------|----------|
-| [Discord](https://discord.gg/aimarket) | Pollux | Help, ideas, show-and-tell |
+| [Discord](https://discord.gg/JjWxGhW9pP) | Pollux | Help, ideas, show-and-tell |
 | [Telegram](https://t.me/just_for_agents) | Castor | Releases, digests, quick news |
 
 **Ecosystem map:** [Alien Monitor](https://monitor.modelmarket.dev/) · [AICOM](https://magic-ai-factory.com)
