@@ -59,7 +59,7 @@ def _collect_oracle_core_ids() -> set[str]:
 
 def _collect_platon_ids() -> set[str]:
     _ensure_paths()
-    from platon.aimarket import CAPABILITIES
+    from oracle_platon.aimarket import CAPABILITIES
 
     return {c["capability_id"] for c in CAPABILITIES}
 
