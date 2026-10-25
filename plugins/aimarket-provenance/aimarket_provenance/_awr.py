@@ -21,8 +21,9 @@ nobody else.
 from __future__ import annotations
 
 import base64
-from pathlib import Path
 from typing import Any
+
+from ._signing_key_storage import compromised_public_key, read_ed25519_keypair
 
 _INSTALL_HINT = (
     "aimarket-provenance requires the AWR/2 reference implementation. Install it with\n"
@@ -146,23 +147,24 @@ def signing_key_from_signer(signer: Any) -> Any:
             ".public_key_b64, got %r" % (type(signer).__name__,)
         )
 
+    try:
+        public = base64.b64decode(public_key_b64, validate=True)
+    except (ValueError, TypeError):
+        raise ProvenanceKeyError("signer.public_key_b64 is not valid base64") from None
+    if compromised_public_key(public):
+        raise ProvenanceKeyError("Compromised signing identity; explicit recovery is required")
+
     cached = _SIGNING_KEY_CACHE.get((str(key_path), public_key_b64))
     if cached is not None:
         return cached
 
     try:
-        raw = Path(key_path).read_bytes()
-    except OSError as exc:
+        seed, _stored_public = read_ed25519_keypair(key_path)
+    except (OSError, RuntimeError) as exc:
         raise ProvenanceKeyError(
             "cannot read the hub signing key at %s: %s" % (key_path, exc)
         ) from exc
-    if len(raw) != 64:
-        raise ProvenanceKeyError(
-            "the hub signing key at %s is %d bytes; the expected format is 64 bytes of "
-            "seed || publicKey" % (key_path, len(raw))
-        )
-
-    key = SigningKey.from_seed(raw[:32])
+    key = SigningKey.from_seed(seed)
     try:
         expected = base64.b64decode(public_key_b64, validate=True)
     except (ValueError, TypeError) as exc:

@@ -28,6 +28,7 @@ from typing import Any
 
 from ._awr import parse_did_key
 from .receipt import ProvenanceReceipt
+from ._signing_key_storage import compromised_public_key
 
 @dataclass
 class VerificationResult:
@@ -169,6 +170,17 @@ def verify_receipt(
             "Issuer key mismatch: %s is not the pinned key for %s"
             % (receipt.issuer_public_key_b64 or "(no key)", binding.get("issuer"))
         )
+
+    # Revocation is hub trust policy, separate from the AWR format's mathematical
+    # signature result. A pinned key whose private half was public is still unsafe.
+    try:
+        issuer_public = base64.b64decode(receipt.issuer_public_key_b64, validate=True)
+    except (ValueError, TypeError):
+        issuer_public = b""
+    revoked = compromised_public_key(issuer_public)
+    result.checks.append({"check": "issuer_key_not_compromised", "passed": not revoked})
+    if revoked:
+        result.errors.append("Issuer signing key was publicly exposed; explicit identity recovery is required")
 
     # ── 4. Time (§11.3: age is policy, not validity) ─────────────────────────
     time_codes = sorted(c for c in warning_codes if isinstance(c, str) and c.startswith("AWR-TIME-"))

@@ -1,0 +1,7 @@
+# Plugin imports/tests may create service state relative to their working directory.
+# Keep these rules here so a standalone aimarket-plugins checkout inherits them.
+**/data/
+**/*_signing_key*
+**/*.db
+**/*.db-wal
+**/*.db-shm
