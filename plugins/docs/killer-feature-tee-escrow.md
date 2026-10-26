@@ -33,7 +33,7 @@ If attestation fails → **automatic partial or full refund** on-channel — no 
 | Plugin | Escrow role |
 |--------|-------------|
 | [`aimarket-tee`](../aimarket-tee/) | Attestation verify, enclave simulation hooks |
-| [`aimarket-provenance`](../aimarket-provenance/) | Signed invoke receipts (W3C VC) |
+| [`aimarket-provenance`](https://github.com/alexar76/aimarket-hub/tree/main/plugins/aimarket-provenance/) | Signed invoke receipts (W3C VC) |
 | [`aimarket-safety`](../aimarket-safety/) | Pre-invoke hold / abort |
 | [`aimarket-reputation`](../aimarket-reputation/) | Stake bonds for repeat sellers |
 
