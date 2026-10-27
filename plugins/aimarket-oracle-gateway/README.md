@@ -32,10 +32,10 @@ Compatible hosts: Claude Desktop, Cursor, Glama, and any MCP client that support
 ---
 
 A **passthrough MCP server** — the discovery + consumption storefront for the entire
-[oracle-as-a-service specs](https://github.com/alexar76/aicom/blob/main/docs/specs/README.md). One server, **35 tools**, every result
+[oracle-as-a-service specs](https://github.com/alexar76/aicom/blob/main/docs/specs/README.md). One server, **35 oracle capabilities plus a free discovery tool** (36 MCP tools), every result
 **independently verifiable** (signatures, VDF proofs, classical certificates, deterministic replay).
 
-## Tools (35)
+## Tools (35 capabilities plus discovery)
 
 | Category | MCP tool | capabilityId | price |
 |----------|----------|--------------|-------|
@@ -122,6 +122,27 @@ Claude Desktop (`mcpServers` entry):
   "command": "python", "args": ["-m", "aimarket_oracle_gateway.stdio_server"],
   "env": { "AIMARKET_HUB_URL": "https://modelmarket.dev" } } } }
 ```
+
+## Test MCP startup locally
+
+From this package directory, in an environment with the package's runtime and `dev`
+dependencies installed:
+
+```bash
+python -m pytest tests/test_stdio_startup.py tests/test_stdio_schema.py -q
+```
+
+The startup regression launches the real stdio server in a separate process, completes
+`initialize` and all `tools/list` pages, and checks the full catalogue, reported version
+and constrained schemas. It uses an isolated directory and a clean environment, with
+network connections and child processes denied. It does not invoke oracle tools or require
+API credentials. Process lifetime and cleanup are bounded.
+
+Release 0.3.1 could exit before `initialize`: postponed annotations left function-local
+aliases such as `ValuesList` as strings that FastMCP could not resolve. Release 0.3.2
+evaluates annotations in `mcp_tool_surface.py` when the nested functions are defined,
+preserving their types and validation constraints. Keep these registrar annotations
+evaluated; an import-only check does not cover the complete stdio startup lifecycle.
 
 ## Publish on Glama
 
