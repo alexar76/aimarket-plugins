@@ -27,7 +27,7 @@ Compatible hosts: Claude Desktop, Cursor, Glama, and any MCP client that support
 | Item | Location |
 |------|----------|
 | MCP entrypoint | `aimarket_mcp_packager/stdio_server.py` |
-| MCP SDK dependency | [`requirements-mcp.txt`](requirements-mcp.txt) — `mcp>=1.6,<4` |
+| MCP SDK dependency | Installed by default — `mcp>=1.6,<2` |
 | Glama / Docker run | [`Dockerfile`](Dockerfile), [`glama.json`](glama.json), [docs/GLAMA.md](docs/GLAMA.md) |
 | Tool implementation | [`aimarket_mcp_packager/packager_core.py`](aimarket_mcp_packager/packager_core.py) |
 
@@ -55,7 +55,7 @@ The server exposes **3 tools** (no MCP resources or prompts):
 | Tool | Description |
 |------|-------------|
 | `package_capability` | Build an MCP server package: Docker image name, `mcp_manifest`, subscription tiers, connection string |
-| `generate_dockerfile` | Generate a Dockerfile template for the packaged MCP server |
+| `generate_dockerfile` | Generate a self-contained Dockerfile with a working stdio capability relay |
 | `generate_claude_desktop_config` | Generate a `claude_desktop_config.json` snippet (`mcpServers`) for docker-run MCP |
 
 Example tool call (conceptual):
@@ -74,6 +74,14 @@ Example tool call (conceptual):
 ```
 
 > `input_schema` takes a JSON Schema **object** (a JSON string is also tolerated for backward compatibility). Every tool parameter is documented in the server's tool schema for MCP clients.
+
+The generated Dockerfile includes the server source and installs its runtime; build it
+with the image tag returned by `package_capability`. Both client-config generators use
+attached `docker run --rm -i` so MCP messages travel over stdio. Set `AIMARKET_HUB_URL`
+and, for capabilities on another provider, `AIMARKET_SOURCE_HUB`. An optional
+`AIMARKET_API_KEY` pays calls through the Hub; these environment variables are forwarded
+at runtime and are never embedded in the image. The example subscription tiers are
+metadata only: this relay does not implement subscription billing or license checks.
 
 ---
 

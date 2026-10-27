@@ -13,7 +13,7 @@ name = "aimarket-oracle-gateway"
 # Console-script NAMES are unchanged, so every Claude Desktop / Glama config keeps working — only
 # the module path behind them moved. A compatibility shim would have re-created the collision, so
 # there is none: `import mcp_stdio_server` is gone deliberately.
-version = "0.3.1"
+version = "0.3.2"
 description = "AIMarket Oracle Gateway — full oracle family (17 oracles, 35 MCP tools) pay-per-call"
 readme = "README.md"
 license = {text = "MIT"}
@@ -24,6 +24,9 @@ requires-python = ">=3.10"
 # `from mcp.server.fastmcp import FastMCP`, so `<4` resolved a fresh install to
 # mcp 2.x and the stdio server died on its first import.
 dependencies = ["mcp>=1.6,<2", "httpx>=0.27", "pydantic>=2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "jsonschema>=4.23"]
 
 [project.urls]
 Homepage = "https://github.com/alexar76/aimarket-oracle-gateway"

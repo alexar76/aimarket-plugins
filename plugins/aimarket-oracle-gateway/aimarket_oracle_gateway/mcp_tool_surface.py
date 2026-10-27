@@ -1,7 +1,5 @@
 """Extended MCP tool surface — registers Phase 1–3 oracle tools on a FastMCP instance."""
 
-from __future__ import annotations
-
 from typing import Annotated, Any, Callable
 
 from pydantic import Field
@@ -11,6 +9,9 @@ RunFn = Callable[[str, dict], str]
 
 def register_extended_tools(mcp: Any, run: RunFn) -> None:
     """Register consensus, thermodynamics, routing, risk, sampling, and resilience tools."""
+
+    # FastMCP inspects each nested function outside this scope. Evaluate annotations
+    # when the function is defined so these local aliases remain available to it.
 
     ValuesList = Annotated[
         list[float],

@@ -34,6 +34,7 @@ from typing import Annotated, Any
 from mcp.server.fastmcp import FastMCP
 from pydantic import Field
 
+from aimarket_oracle_gateway import __version__
 from aimarket_oracle_gateway.gateway_core import (
     CAPABILITIES,
     CAPABILITY_CATEGORIES,
@@ -41,6 +42,7 @@ from aimarket_oracle_gateway.gateway_core import (
     list_capabilities_catalog,
 )
 from aimarket_oracle_gateway.mcp_tool_surface import register_extended_tools
+from aimarket_oracle_gateway.mcp_family_tools import register_family_tools
 
 mcp = FastMCP(
     "aimarket-oracle-gateway",
@@ -57,11 +59,18 @@ mcp = FastMCP(
         "• Risk (Ablation): analyze_cascade_risk, verify_cascade_risk — SOC cascade tails\n"
         "• Sampling (Lattice/Turing): get_quasirandom_sequence, get_blue_noise\n"
         "• Optimization (Colony): optimize_route — TSP with gap certificate\n"
-        "• Resilience (Percola): analyze_network_resilience, verify_network_resilience\n\n"
+        "• Resilience (Percola): analyze_network_resilience, verify_network_resilience\n"
+        "• VRF (Sortes): sortes_draw, sortes_verify\n"
+        "• Learning (Gauss): gauss_field, gauss_suggest, gauss_verify\n"
+        "• Time-lock (Aestus): aestus_seal, aestus_open, aestus_verify\n"
+        "• Topology (Betti): betti_homology, betti_distance\n"
+        "• Transport (Kantor): kantor_transport, kantor_verify\n"
+        "• Spectral (Fourier): fourier_spectrum, fourier_verify\n\n"
         "Every paid tool returns {capability_id, result, price_usd, routing_fee_usd, source, "
         "verifiable}. Prefer verifying signatures/proofs/certificates over trusting the service."
     ),
 )
+mcp._mcp_server.version = __version__
 _gateway = OracleGateway.from_env()
 
 
@@ -71,6 +80,7 @@ def _run(tool: str, payload: dict) -> str:
 
 
 register_extended_tools(mcp, _run)
+register_family_tools(mcp, _run)
 
 
 # ── Shared parameter annotations (described once with examples, reused by tools) ──────────────

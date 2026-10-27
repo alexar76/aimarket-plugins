@@ -1,3 +1,5 @@
-"""MCP Packager — re-export shim from aimarket_hub.mcp_packager (canonical)."""
+"""Compatibility import for the plugin's canonical, runnable MCP packager."""
 
-from aimarket_hub.mcp_packager import *  # noqa: F401, F403
+from .packager_core import MCPPackager, MCPServerPackage
+
+__all__ = ["MCPPackager", "MCPServerPackage"]

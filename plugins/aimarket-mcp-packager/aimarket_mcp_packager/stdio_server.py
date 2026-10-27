@@ -14,6 +14,7 @@ from typing import Annotated, Any
 from mcp.server.fastmcp import FastMCP
 from pydantic import Field
 
+from aimarket_mcp_packager import __version__
 from aimarket_mcp_packager.packager_core import MCPPackager
 
 mcp = FastMCP(
@@ -26,6 +27,7 @@ mcp = FastMCP(
         "three tools are pure and read-only — they never deploy or mutate anything."
     ),
 )
+mcp._mcp_server.version = __version__
 _packager = MCPPackager()
 
 
