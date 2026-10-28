@@ -12,7 +12,7 @@ from mcp.types import TextContent, Tool
 from aimarket_mcp.tools import market_invoke
 
 CONFIG = json.loads(base64.b64decode("__CONFIG_B64__"))
-server = Server(CONFIG["name"], version="2.1.2")
+server = Server(CONFIG["name"], version="2.1.3")
 validator = Draft202012Validator(CONFIG["tool"]["inputSchema"])
 
 

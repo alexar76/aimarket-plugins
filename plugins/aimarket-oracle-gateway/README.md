@@ -95,6 +95,7 @@ Pay-per-call remains the default; bundles are Hub-side packaging.
 | var | meaning |
 |-----|---------|
 | `AIMARKET_HUB_URL` | AIMarket Hub base URL — **recommended**: metered + paid |
+| `AIMARKET_SOURCE_HUB` | Copy the selected Hub search result's `source_hub` for federated oracles; defaults to `local` |
 | `AIMARKET_ORACLE_URL` | direct oracle-family URL (if no hub) — demo/free path |
 | `AIMARKET_PAYMENT_CHANNEL` | optional pre-opened payment channel id |
 | `AIMARKET_PAYMENT_CHANNEL_SECRET` | per-channel debit secret |
@@ -108,10 +109,27 @@ If neither URL is set the server fails closed with a clear message.
 **Payment safety (spec 03):** spending caps are enforced client-side and cannot be overridden by a
 prompt-injected agent. See [docs/specs/03-mcp-payment-and-security.md](https://github.com/alexar76/aicom/blob/main/docs/specs/03-mcp-payment-and-security.md).
 
+Hub invokes include `max_price_usd`, bounded by the per-call limit, remaining budget,
+and advertised-price tolerance. A supporting Hub checks this ceiling before work or
+payment. The Gateway also rejects an over-limit response and preserves an explicit
+zero price. Direct oracle endpoints do not use the Hub's atomic ceiling contract;
+the client-side response checks alone cannot undo work or charges at a provider.
+
 ## Run
+
+Install the published server:
+
+```bash
+pip install aimarket-oracle-gateway==0.3.3
+```
+
+Set `AIMARKET_HUB_URL` and, for a federated result, `AIMARKET_SOURCE_HUB` as above,
+then run `aimarket-oracle-gateway`. For a source checkout instead:
 
 ```bash
 pip install -r requirements-mcp.txt && pip install --no-deps -e .
+# Set this to the exact source_hub returned by the Hub's oracle search.
+export AIMARKET_SOURCE_HUB="<source_hub from the selected catalog result>"
 AIMARKET_HUB_URL=https://modelmarket.dev python -m aimarket_oracle_gateway.stdio_server
 ```
 
@@ -120,7 +138,10 @@ Claude Desktop (`mcpServers` entry):
 ```json
 { "mcpServers": { "aimarket-oracle-gateway": {
   "command": "python", "args": ["-m", "aimarket_oracle_gateway.stdio_server"],
-  "env": { "AIMARKET_HUB_URL": "https://modelmarket.dev" } } } }
+  "env": {
+    "AIMARKET_HUB_URL": "https://modelmarket.dev",
+    "AIMARKET_SOURCE_HUB": "<source_hub from the selected catalog result>"
+  } } } }
 ```
 
 ## Test MCP startup locally
@@ -143,6 +164,12 @@ aliases such as `ValuesList` as strings that FastMCP could not resolve. Release 
 evaluates annotations in `mcp_tool_surface.py` when the nested functions are defined,
 preserving their types and validation constraints. Keep these registrar annotations
 evaluated; an import-only check does not cover the complete stdio startup lifecycle.
+
+Release 0.3.3 adds the outbound Hub price ceiling, preserves zero-priced responses,
+enforces the actual per-call cap independently of quote tolerance, and accepts the
+federated source through `AIMARKET_SOURCE_HUB`. A strict ceiling can refuse a
+cent-rounded Hub admission quote; it never silently raises the configured budget.
+Direct oracle providers do not implement this Hub ceiling contract.
 
 ## Publish on Glama
 

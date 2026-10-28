@@ -7,13 +7,13 @@
     "url": "https://github.com/alexar76/aimarket-oracle-gateway",
     "source": "github"
   },
-  "version": "0.3.2",
+  "version": "0.3.3",
   "packages": [
     {
       "registryType": "pypi",
       "registryBaseUrl": "https://pypi.org",
       "identifier": "aimarket-oracle-gateway",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "transport": {
         "type": "stdio"
       },
@@ -21,6 +21,12 @@
         {
           "name": "AIMARKET_HUB_URL",
           "description": "AIMarket Hub base URL (recommended metered path)",
+          "isRequired": false,
+          "isSecret": false
+        },
+        {
+          "name": "AIMARKET_SOURCE_HUB",
+          "description": "For federated oracles, copy source_hub from the selected Hub search result; default local",
           "isRequired": false,
           "isSecret": false
         },

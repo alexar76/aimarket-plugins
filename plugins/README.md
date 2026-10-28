@@ -19,14 +19,14 @@
 
 ## Install
 
-**PyPI (top-5):** [`docs/install.md`](docs/install.md)
+**PyPI:** [`docs/install.md`](docs/install.md). All 15 protocol plugins are published; the
+Hub's `plugins` extra installs the five core plugins.
 
 | Package | PyPI status |
 |---------|-------------|
-| `aimarket-hub` | ✅ 3.0.0 |
-| `aimarket-tee`, `aimarket-channels`, `aimarket-reputation` | ✅ 2.0.0 |
-| `aimarket-safety`, `aimarket-mcp-packager` | ⏳ pending (PyPI new-project rate limit — install from source until published) |
-| `aimarket-zk` | ⏳ monorepo only — `pip install -e plugins/aimarket-zk` until PyPI publish |
+| `aimarket-hub` | Published; Python 3.11+ |
+| `aimarket-tee`, `aimarket-channels`, `aimarket-reputation`, `aimarket-safety`, `aimarket-mcp-packager` | Published; included in `pip install "aimarket-hub[plugins]"` |
+| `aimarket-zk` and the remaining protocol plugins | Published; install individually — see the install guide |
 
 **Docker:** all 15 plugins ship in the production hub image — `./scripts/deploy_hub.sh` from the factory monorepo.
 
@@ -58,7 +58,7 @@ A **second MCP server** ships as its own satellite repo [`alexar76/aimarket-orac
 
 | | |
 |---|---|
-| **Run** | `AIMARKET_HUB_URL=https://modelmarket.dev python mcp_stdio_server.py` |
+| **Run** | `pip install aimarket-oracle-gateway`, then `aimarket-oracle-gateway`; configure `AIMARKET_HUB_URL` and the selected result's `AIMARKET_SOURCE_HUB` for federated oracles — see its README |
 | **Tools** | `get_random` · `compute_vdf` · `get_reputation_scores` · `list_oracle_capabilities` · … |
 | **Registry** | [![aimarket-oracle-gateway MCP server](https://glama.ai/mcp/servers/alexar76/aimarket-oracle-gateway/badges/score.svg)](https://glama.ai/mcp/servers/alexar76/aimarket-oracle-gateway) — [`glama.json`](aimarket-oracle-gateway/glama.json) + [`Dockerfile`](https://github.com/alexar76/aicom/blob/main/Dockerfile) |
 

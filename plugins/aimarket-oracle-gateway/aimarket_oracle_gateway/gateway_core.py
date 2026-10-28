@@ -313,7 +313,7 @@ class OracleGateway:
     payment_channel: str = ""
     payment_channel_secret: str = ""
     api_token: str = ""
-    source_hub: str = "mcp-oracle-gateway"
+    source_hub: str = "local"
     routing_fee_bps: int = 100
     max_per_call_usd: float = 0.10
     max_total_usd: float = 5.0
@@ -335,6 +335,7 @@ class OracleGateway:
             payment_channel=os.getenv("AIMARKET_PAYMENT_CHANNEL", ""),
             payment_channel_secret=os.getenv("AIMARKET_PAYMENT_CHANNEL_SECRET", ""),
             api_token=os.getenv("AIMARKET_API_TOKEN", ""),
+            source_hub=os.getenv("AIMARKET_SOURCE_HUB", "local").strip() or "local",
             max_per_call_usd=_f("AIMARKET_MAX_PER_CALL_USD", 0.10),
             max_total_usd=_f("AIMARKET_MAX_SPEND_USD", 5.0),
             price_tolerance=_f("AIMARKET_PRICE_TOLERANCE", 0.10),
@@ -353,6 +354,10 @@ class OracleGateway:
             )
 
     def _account(self, price_usd: float, price_hint: float) -> None:
+        if price_usd > self.max_per_call_usd:
+            raise SpendError(
+                f"actual per-call price ${price_usd} exceeds cap ${self.max_per_call_usd}"
+            )
         if price_hint > 0 and price_usd > price_hint * (1.0 + self.price_tolerance):
             raise SpendError(
                 f"hub overcharged: charged ${price_usd} > advertised ${price_hint} "
@@ -364,6 +369,25 @@ class OracleGateway:
                 f"spent ${self.spent_usd:.4f})"
             )
         self.spent_usd = round(self.spent_usd + price_usd, 6)
+
+    def _price_ceiling(self, price_hint: float) -> float:
+        """Tell a supporting Hub the maximum before it reserves funds or runs work."""
+        ceiling = min(self.max_per_call_usd, self.max_total_usd - self.spent_usd)
+        if price_hint > 0:
+            ceiling = min(ceiling, price_hint * (1.0 + self.price_tolerance))
+        return ceiling
+
+    @staticmethod
+    def _reported_price(data: dict, price_hint: float) -> float:
+        try:
+            # A zero-priced response is authoritative too. Only an absent field
+            # falls back to the advertised hint; `or price_hint` billed free calls.
+            price = float(data.get("price_usd", price_hint))
+        except (TypeError, ValueError) as exc:
+            raise GatewayError("hub returned a price that is not a number") from exc
+        if not math.isfinite(price) or price < 0:
+            raise GatewayError(f"hub returned an invalid price: {price!r}")
+        return price
 
     def _client(self):
         if self.http is None:
@@ -396,6 +420,7 @@ class OracleGateway:
                 "capability_id": capability_id,
                 "source_hub": self.source_hub,
                 "input": payload,
+                "max_price_usd": self._price_ceiling(price_hint),
             }
             headers: dict[str, str] = {}
             if self.payment_channel:
@@ -405,14 +430,7 @@ class OracleGateway:
             if self.api_token:
                 headers["Authorization"] = f"Bearer {self.api_token}"
             data = self._post(f"{self.hub_url}/ai-market/v2/invoke", body, headers)
-            try:
-                price = float(data.get("price_usd", price_hint) or price_hint)
-            except (TypeError, ValueError) as exc:
-                raise GatewayError("hub returned a price that is not a number") from exc
-            # NaN made every cap comparison False and turned spent_usd into NaN for good; a
-            # negative price refunded the budget. Either is a hub fault, not a charge.
-            if not math.isfinite(price) or price < 0:
-                raise GatewayError(f"hub returned an invalid price: {price!r}")
+            price = self._reported_price(data, price_hint)
             result = _unwrap(data)
             self._account(price, price_hint)
             return {
@@ -429,14 +447,7 @@ class OracleGateway:
                 {"capability_id": capability_id, "input": payload},
                 {},
             )
-            try:
-                price = float(data.get("price_usd", price_hint) or price_hint)
-            except (TypeError, ValueError) as exc:
-                raise GatewayError("hub returned a price that is not a number") from exc
-            # NaN made every cap comparison False and turned spent_usd into NaN for good; a
-            # negative price refunded the budget. Either is a hub fault, not a charge.
-            if not math.isfinite(price) or price < 0:
-                raise GatewayError(f"hub returned an invalid price: {price!r}")
+            price = self._reported_price(data, price_hint)
             result = _unwrap(data)
             self._account(price, price_hint)
             return {

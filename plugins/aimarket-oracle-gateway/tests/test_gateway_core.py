@@ -85,6 +85,19 @@ def test_no_endpoint_fails_closed():
         gw.call_tool("get_random", {})
 
 
+def test_default_source_hub_uses_protocol_local_route():
+    fake = _FakeClient({"price_usd": 0.004, "result": {}})
+    gw = OracleGateway(hub_url="https://hub.example", http=fake)
+    gw.call_tool("get_random", {})
+    assert fake.calls[0]["json"]["source_hub"] == "local"
+
+
+def test_source_hub_can_be_configured_for_a_federated_catalog_match(monkeypatch):
+    monkeypatch.setenv("AIMARKET_SOURCE_HUB", "https://peer.example/family")
+    gw = OracleGateway.from_env()
+    assert gw.source_hub == "https://peer.example/family"
+
+
 def test_unknown_tool_rejected():
     gw = OracleGateway(hub_url="https://hub.example", http=_FakeClient({}))
     with pytest.raises(GatewayError, match="unknown tool"):
@@ -128,6 +141,44 @@ def test_actual_price_budget_check_closes_tolerance_gap():
     gw = OracleGateway(hub_url="https://hub.example", http=fake, max_per_call_usd=1.0, max_total_usd=0.0042)
     with pytest.raises(SpendError, match="total budget"):
         gw.call_tool("get_random", {})
+
+
+@pytest.mark.parametrize("endpoint", ["hub_url", "oracle_url"])
+def test_explicit_zero_price_remains_free(endpoint):
+    fake = _FakeClient({"price_usd": 0, "result": {"fixture": True}})
+    gw = OracleGateway(**{endpoint: "https://fixture.example"}, http=fake)
+    out = gw.call_tool("get_random", {})
+    assert out["price_usd"] == 0
+    assert out["routing_fee_usd"] == 0
+    assert gw.spent_usd == 0
+
+
+def test_hub_receives_atomic_ceiling_before_work():
+    fake = _FakeClient({"price_usd": 0.004, "result": {}})
+    gw = OracleGateway(hub_url="https://fixture.example", http=fake,
+                       max_per_call_usd=0.0042, max_total_usd=0.0081)
+    gw.call_tool("get_random", {})
+    gw.call_tool("get_random", {})
+    assert fake.calls[0]["json"]["max_price_usd"] == pytest.approx(0.0042)
+    assert fake.calls[1]["json"]["max_price_usd"] == pytest.approx(0.0041)
+
+
+def test_hub_ceiling_includes_advertised_price_tolerance():
+    fake = _FakeClient({"price_usd": 0.004, "result": {}})
+    gw = OracleGateway(hub_url="https://fixture.example", http=fake,
+                       max_per_call_usd=1, max_total_usd=10)
+    gw.call_tool("get_random", {})
+    assert fake.calls[0]["json"]["max_price_usd"] == pytest.approx(0.0044)
+
+
+@pytest.mark.parametrize("endpoint", ["hub_url", "oracle_url"])
+def test_actual_per_call_cap_cannot_be_overridden_by_tolerance(endpoint):
+    fake = _FakeClient({"price_usd": 0.0042, "result": {}})
+    gw = OracleGateway(**{endpoint: "https://fixture.example"}, http=fake,
+                       max_per_call_usd=0.004, max_total_usd=1)
+    with pytest.raises(SpendError, match="actual per-call price"):
+        gw.call_tool("get_random", {})
+    assert gw.spent_usd == 0
 
 
 @pytest.mark.parametrize(

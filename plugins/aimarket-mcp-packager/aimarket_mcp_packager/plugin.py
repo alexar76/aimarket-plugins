@@ -6,7 +6,7 @@ from aimarket_mcp_packager.mcp_packager import MCPPackager
 
 class MCPPlugin(HubPlugin):
     name = "aimarket-mcp-packager"
-    version = "2.1.2"
+    version = "2.1.3"
     description = "Package capabilities as ready-to-run MCP servers for Claude Desktop"
     homepage = "https://github.com/alexar76/aimarket-plugins"
     category = "tooling"

@@ -13,7 +13,7 @@ name = "aimarket-oracle-gateway"
 # Console-script NAMES are unchanged, so every Claude Desktop / Glama config keeps working — only
 # the module path behind them moved. A compatibility shim would have re-created the collision, so
 # there is none: `import mcp_stdio_server` is gone deliberately.
-version = "0.3.2"
+version = "0.3.3"
 description = "AIMarket Oracle Gateway — full oracle family (17 oracles, 35 MCP tools) pay-per-call"
 readme = "README.md"
 license = {text = "MIT"}

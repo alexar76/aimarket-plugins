@@ -8,7 +8,7 @@ Hub plugins extend invoke, settlement, compliance, and data planes. Install the 
 
 **Prerequisite:** `pip install aimarket-hub` (3.0.0+)
 
-### Top-5 published plugins
+### Five core plugins
 
 | Plugin | PyPI | Role |
 |--------|------|------|
@@ -64,9 +64,39 @@ pip install -e plugins/aimarket-safety
 
 ---
 
-## Remaining plugins
+## Additional published plugins
 
-Other plugins (`aimarket-auction`, `aimarket-nft`, …) are **source / Docker only** until published to PyPI. Track [GitHub Releases](https://github.com/alexar76/aimarket-plugins/releases) for new PyPI packages.
+The other ten protocol plugins are also available on PyPI. Install only the plugins
+you need; they are not included in the Hub's five-plugin `plugins` extra.
+
+```bash
+pip install aimarket-auction aimarket-data-cap aimarket-dataset aimarket-nft \
+  aimarket-orchestrator aimarket-personas aimarket-promo aimarket-streaming \
+  aimarket-zk aimarket-provenance
+```
+
+The standalone Oracle Gateway is a separate MCP server, not one of the 15 Hub plugins:
+
+```bash
+pip install aimarket-oracle-gateway
+# For a federated oracle, copy source_hub from the Hub search result.
+AIMARKET_HUB_URL=https://modelmarket.dev \
+  AIMARKET_SOURCE_HUB="<source_hub from the selected catalog result>" \
+  aimarket-oracle-gateway
+```
+
+For the Packager MCP server, use the installed console command. From 2.1.3 it is also
+installed under the package's own name, which is what `uvx aimarket-mcp-packager` and
+MCP-registry clients run:
+
+```bash
+aimarket-mcp-packager-mcp
+```
+
+Both MCP commands use stdio and should normally be launched by an MCP client. The
+Packager's generators are local; Oracle Gateway's paid tools require an explicitly
+configured Hub and payment authorization. Its `list_oracle_capabilities` tool is free
+and works without a configured provider.
 
 ---
 
