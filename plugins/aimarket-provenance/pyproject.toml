@@ -12,7 +12,10 @@ name = "aimarket-provenance"
 # off unless AIMARKET_HISTOR_URL is set) and commits to subcontractors' receipts in `parents`.
 # 2.1.0 moves auto-issuance to the hub's finalized receipt hook so signed claims carry
 # the real input, provider, latency, charged price, nonce and settlement state.
-version = "2.3.0"
+# 2.3.1 ships the 2026-10-25 security work that sat in the tree under 2.3.0 (the publish gate
+# found the published 2.3.0 wheel differing in _awr.py and verifier.py and lacking
+# _signing_key_storage.py): signing-key storage and validation, published keys quarantined.
+version = "2.3.1"
 description = "AI Provenance Layer — AWR/2 work receipts for AI outputs (W3C VC, eddsa-jcs-2022, RFC 8785, did:key)"
 # The README exists next to this file and was simply never declared, so the package built with no
 # long_description at all — it would have published with a blank PyPI page. `twine check --strict`

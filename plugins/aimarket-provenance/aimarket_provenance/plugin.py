@@ -78,7 +78,7 @@ def _load_or_create_signer() -> tuple[Signer, str]:
 
 class ProvenancePlugin(HubPlugin):
     name = "provenance"
-    version = "2.3.0"
+    version = "2.3.1"
     description = (
         "AWR/2 work receipts for AI outputs — W3C Verifiable Credentials with an "
         "eddsa-jcs-2022 Data Integrity proof over RFC 8785, issued by a did:key"

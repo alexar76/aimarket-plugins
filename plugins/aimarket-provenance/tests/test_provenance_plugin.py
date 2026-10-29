@@ -99,7 +99,7 @@ class TestPluginMetadata:
         assert plugin.name == "provenance"
 
     def test_version(self, plugin):
-        assert plugin.version == "2.3.0"
+        assert plugin.version == "2.3.1"
 
     def test_version_matches_the_distribution(self, plugin):
         """The class and the dist must agree, or the hub advertises a version PyPI lacks."""
@@ -133,7 +133,7 @@ class TestPluginLifecycle:
 class TestPluginHooks:
     def test_get_manifest_extension(self, plugin):
         ext = plugin.get_manifest_extension()["provenance"]
-        assert ext["version"] == "2.3.0"
+        assert ext["version"] == "2.3.1"
         assert ext["receipt_format"] == "AWR/2 (W3C Verifiable Credential)"
         assert ext["awr_version"] == "2.0.0"
         assert ext["proof_type"] == "DataIntegrityProof"
