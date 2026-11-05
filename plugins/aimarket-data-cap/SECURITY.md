@@ -4,7 +4,7 @@
 
 **Do not open a public issue for security bugs.**
 
-Email: **alexar76@rambler.ru**
+Email: **qwezzy721@gmail.com**
 
 We acknowledge within 48 hours and share a fix timeline.
 
