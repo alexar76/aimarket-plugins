@@ -23,7 +23,7 @@ requires-python = ">=3.10"
 # ("pin 'mcp<2' to keep running v1 code"). `stdio_server.py` does
 # `from mcp.server.fastmcp import FastMCP`, so `<4` resolved a fresh install to
 # mcp 2.x and the stdio server died on its first import.
-dependencies = ["mcp>=1.6,<2", "httpx>=0.27", "pydantic>=2"]
+dependencies = ["mcp>=1.30.0,<2", "httpx>=0.27.1", "pydantic>=2.12.0"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "jsonschema>=4.23"]

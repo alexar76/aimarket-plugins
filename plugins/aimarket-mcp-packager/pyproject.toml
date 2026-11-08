@@ -29,7 +29,7 @@ description = "Package products as ready-to-run MCP servers for Claude Desktop"
 license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = ["aimarket-hub>=3.0.0", "mcp>=1.6,<2"]
+dependencies = ["aimarket-hub>=3.0.0", "mcp>=1.30.0,<2"]
 
 [project.optional-dependencies]
 # Ceiling is `<2`, not `<4`: mcp 2.x renamed FastMCP to MCPServer and made
