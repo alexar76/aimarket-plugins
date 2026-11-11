@@ -1,0 +1,15 @@
+{
+ "format": "histor.manifest-revisions/v1",
+ "server": "io.github.alexar76/aimarket-plugins",
+ "revisions": [
+  {
+   "revision": 1,
+   "manifestDigest": "sha256:82a394768149ebbbdb1f12ddb332c8f58cdec3deef0b34be32ece77c5828e2dc",
+   "serverVersion": "2.1.3",
+   "createdAt": "2026-11-11T07:22:33Z",
+   "signer": "https://github.com/alexar76/aimarket-plugins/.github/workflows/sign-manifest-revision.yml@refs/heads/main",
+   "logIndex": "3805239590",
+   "envelope": "revisions/1.json"
+  }
+ ]
+}
