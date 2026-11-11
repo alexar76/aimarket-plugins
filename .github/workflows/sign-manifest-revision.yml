@@ -36,10 +36,11 @@ jobs:
         run: |
           [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.a-z0-9]*)$ ]] || { echo "not a version: $VERSION"; exit 2; }
 
-      - name: histor revision CLI (from PyPI)
+      - name: histor revision CLI (from alexar76/histor tip)
         run: |
           uv venv --python 3.12 .rv
-          uv pip install --python .rv "aimarket-histor[sigstore]==0.7.0"
+          # PyPI 0.7.0 has no `histor revision`; the tip of alexar76/histor does.
+          uv pip install --python .rv "aimarket-histor[sigstore] @ git+https://github.com/alexar76/histor.git"
 
       - name: The manifest-revisions branch
         run: |
