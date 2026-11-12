@@ -78,7 +78,7 @@ def _load_or_create_signer() -> tuple[Signer, str]:
 
 class ProvenancePlugin(HubPlugin):
     name = "provenance"
-    version = "2.3.1"
+    version = "2.3.2"
     description = (
         "AWR/2 work receipts for AI outputs — W3C Verifiable Credentials with an "
         "eddsa-jcs-2022 Data Integrity proof over RFC 8785, issued by a did:key"
@@ -247,6 +247,9 @@ class ProvenancePlugin(HubPlugin):
                 status=context.get("status", "succeeded"),
                 invocation_nonce=context.get("nonce"),
                 settlement=settlement,
+                output_digest_of=context.get("output_digest_of"),
+                # Only a routed call has a receipt signed by someone else to commit to.
+                gateway_receipt=context.get("gateway_receipt") if context.get("routed") else None,
                 # Subcontractors' work receipts, as {id, digestSRI} references
                 # (aimarket-protocol/mandates.md §6.4): the chain edge commits to their bytes.
                 parent_receipts=[

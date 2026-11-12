@@ -230,6 +230,8 @@ class ProvenanceReceipt:
         reputation_score: Any = None,
         status: str = DEFAULT_STATUS,
         settlement: dict[str, Any] | None = None,
+        output_digest_of: str | None = None,
+        gateway_receipt: dict[str, Any] | None = None,
         receipt_id: str | None = None,
         now: _dt.datetime | None = None,
     ) -> "ProvenanceReceipt":
@@ -251,16 +253,17 @@ class ProvenanceReceipt:
         completed = now or _dt.datetime.now(tz=_dt.timezone.utc)
         completed_at = _rfc3339(completed)
 
-        digests = [payload_digest(input_payload), payload_digest(output_payload)]
-        # One rule per receipt: if either payload has no §4 canonical form, both digests
-        # are produced by the named fallback, so `payloadSerialization` is unambiguous.
+        gateway = gateway_receipt if isinstance(gateway_receipt, dict) and gateway_receipt else None
+        payloads = [input_payload, output_payload] + ([gateway] if gateway is not None else [])
+        digests = [payload_digest(p) for p in payloads]
+        # One rule per receipt: if any digested value has no §4 canonical form, every digest
+        # is produced by the named fallback, so `payloadSerialization` is unambiguous.
         if any(kind == PAYLOAD_SERIALIZATION_JSON for _, kind in digests):
             serialization = PAYLOAD_SERIALIZATION_JSON
-            input_sri, _ = payload_digest(input_payload, serialization)
-            output_sri, _ = payload_digest(output_payload, serialization)
+            digests = [payload_digest(p, serialization) for p in payloads]
         else:
             serialization = PAYLOAD_SERIALIZATION_JCS
-            input_sri, output_sri = digests[0][0], digests[1][0]
+        input_sri, output_sri = digests[0][0], digests[1][0]
 
         work: dict[str, Any] = {
             "modelId": model_id,
@@ -283,6 +286,17 @@ class ProvenanceReceipt:
             "providerHub": provider_hub,
             "payloadSerialization": serialization,
         }
+        if output_digest_of:
+            # Which member of the hub's HTTP answer `output_payload` is, so a buyer can
+            # recompute outputDigest from what they hold instead of guessing: `result` when
+            # the answer has one (a local call, or a peer hub's answer passed through),
+            # otherwise `output` (an oracle routed over MCP).
+            subject["outputDigestOf"] = output_digest_of
+        if gateway is not None:
+            # A routed call's provider-signed receipt, committed to by digest. It used to
+            # ride inside a digest of the whole answer, which nobody could recompute
+            # because the answer kept growing after the digest was taken.
+            subject["gatewayReceiptDigest"] = digests[2][0]
 
         parents = _normalize_parents(parent_receipts)
         if parents:
