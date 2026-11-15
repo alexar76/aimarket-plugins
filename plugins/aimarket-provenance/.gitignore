@@ -1,4 +1,8 @@
 /data/
-*_signing_key*
+# Runtime Ed25519 key files are named <service>_signing_key (no extension).
+# Do not use *_signing_key* — that also matches _signing_key_storage.py, which
+# is source code the plugin imports and CI must ship.
+*_signing_key
+!_signing_key_storage.py
 __pycache__/
 .pytest_cache/
