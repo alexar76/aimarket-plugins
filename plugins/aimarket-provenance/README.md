@@ -4,7 +4,7 @@
 
 Infrastructure-layer plugin for [AIMarket Hub](https://pypi.org/project/aimarket-hub/). Auto-attaches a tamper-evident receipt to every successful `/invoke`, and exposes public verify endpoints for auditors and end users.
 
-Receipts conform to [**AWR/2**](https://github.com/alexar76/aicom/blob/main/awr/SPEC.md) (Agent Work Receipt 2.0.0). Verification needs no network, no registry, no blockchain and no issuer-specific software: any conformant W3C VC library can check one.
+Receipts conform to [**AWR/2**](https://github.com/alexar76/aicom/blob/main/awr/SPEC.md) (AIMarket Work Receipt 2.0.0). Verification needs no network, no registry, no blockchain and no issuer-specific software: any conformant W3C VC library can check one.
 
 > **Try it:** open the receipt's `receipt_url`, copy the JSON, and paste it into **[verify.modelmarket.dev](https://verify.modelmarket.dev)** — client-side Ed25519, no backend, nothing sent anywhere.
 
