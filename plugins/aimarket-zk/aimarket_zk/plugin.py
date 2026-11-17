@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import hashlib
+import ipaddress
 import json
+import logging
 import os
 import time
 from collections import defaultdict, deque
@@ -60,27 +62,56 @@ def _enforce_prove_rate_limit(client_key: str) -> None:
     _prune_expired(now)
 
 
-def _trust_forwarded_for() -> bool:
-    return (os.environ.get("AIMARKET_ZK_TRUST_FORWARDED_FOR") or "").strip().lower() in (
-        "1",
-        "true",
-        "yes",
-        "on",
-    )
+_log = logging.getLogger(__name__)
+_warned_old_flag = False
+
+
+def _trusted_proxy_cidrs() -> list[str]:
+    """AIMARKET_ZK_TRUSTED_PROXIES: comma-separated CIDRs of the proxies in front of the hub.
+
+    It replaces the yes/no AIMARKET_ZK_TRUST_FORWARDED_FOR (2026-11-16), which trusted the
+    header from any caller once it was on. A deployment that still sets only the old flag
+    keys on the socket peer and is told once in the log what to set instead.
+    """
+    global _warned_old_flag
+    raw = os.environ.get("AIMARKET_ZK_TRUSTED_PROXIES") or ""
+    out = [part.strip() for part in raw.split(",") if part.strip()]
+    if not out and not _warned_old_flag and (os.environ.get("AIMARKET_ZK_TRUST_FORWARDED_FOR") or "").strip():
+        _warned_old_flag = True
+        _log.warning("AIMARKET_ZK_TRUST_FORWARDED_FOR is no longer read; set AIMARKET_ZK_TRUSTED_PROXIES "
+                     "to the CIDRs of your reverse proxy (rate limits key on the socket peer until then)")
+    return out
+
+
+def _peer_is_trusted_proxy(peer: str) -> bool:
+    if not peer:
+        return False
+    try:
+        addr = ipaddress.ip_address(peer)
+    except ValueError:
+        return False
+    for cidr in _trusted_proxy_cidrs():
+        try:
+            if addr in ipaddress.ip_network(cidr, strict=False):
+                return True
+        except ValueError:
+            continue
+    return False
 
 
 def _client_key_from_request(request) -> str:
     # X-Forwarded-For is client-controlled and trivially spoofable, so trusting it
     # unconditionally lets an attacker rotate the header to evade the rate limit.
-    # Only honour it when explicitly deployed behind a trusted proxy; otherwise use
-    # the real socket peer.
-    if _trust_forwarded_for():
+    # Only honour it when the socket peer is a configured trusted proxy; otherwise
+    # use the real socket peer.
+    peer = request.client.host if request.client and request.client.host else ""
+    if peer and _peer_is_trusted_proxy(peer):
         # RIGHT-most hop — the one the trusted proxy appended; the left one is the caller's.
         hops = [h.strip() for h in (request.headers.get("x-forwarded-for") or "").split(",") if h.strip()]
         if hops:
             return hops[-1]
-    if request.client and request.client.host:
-        return request.client.host
+    if peer:
+        return peer
     return "unknown"
 
 

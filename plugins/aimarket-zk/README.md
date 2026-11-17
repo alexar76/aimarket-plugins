@@ -36,6 +36,12 @@ pip install -e plugins/aimarket-zk
 > catalogue. Set `AIMARKET_ZK_SIMULATED=1` for the development simulation — it is **not** real
 > zero-knowledge and the hub says so at every call.
 
+> Behind a reverse proxy: set `AIMARKET_ZK_TRUSTED_PROXIES` to the proxy's addresses as
+> comma-separated CIDRs (for example `127.0.0.1/32`). The prove rate limit then keys on the
+> right-most `X-Forwarded-For` hop, but only for requests whose socket peer is in that list. It
+> replaces `AIMARKET_ZK_TRUST_FORWARDED_FOR` (2026-11-16), which trusted the header from any
+> caller. The old flag is no longer read, and the plugin logs one warning if it is still set.
+
 ## Example
 ```python
 from aimarket_hub.signing import Signer
