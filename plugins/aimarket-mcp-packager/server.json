@@ -13,13 +13,13 @@
       "registryType": "pypi",
       "registryBaseUrl": "https://pypi.org",
       "identifier": "aimarket-mcp-packager",
-      "version": "2.1.2",
+      "version": "2.2.0",
       "runtimeHint": "uvx",
       "runtimeArguments": [
         {
           "type": "named",
           "name": "--from",
-          "value": "aimarket-mcp-packager==2.1.2"
+          "value": "aimarket-mcp-packager==2.2.0"
         },
         {
           "type": "positional",
