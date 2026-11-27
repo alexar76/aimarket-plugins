@@ -7,4 +7,4 @@ and consume them. See README.md."""
 from .gateway_core import CAPABILITIES, CapabilitySpec, GatewayError, OracleGateway
 
 __all__ = ["OracleGateway", "CapabilitySpec", "CAPABILITIES", "GatewayError"]
-__version__ = "0.3.3"
+__version__ = "0.4.0"

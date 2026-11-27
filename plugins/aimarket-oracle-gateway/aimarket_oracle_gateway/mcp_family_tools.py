@@ -1,7 +1,7 @@
 """MCP bindings for Sortes, Gauss, Aestus, Betti, Kantor and Fourier.
 
 Parameter names and defaults follow the corresponding oracle capability specs.
-Keep annotations evaluated: FastMCP introspects these nested functions later.
+Keep annotations evaluated: the SDK introspects these nested functions later.
 """
 from typing import Annotated, Any, Callable, Literal
 

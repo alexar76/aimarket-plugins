@@ -1,4 +1,4 @@
-"""Extended MCP tool surface — registers Phase 1–3 oracle tools on a FastMCP instance."""
+"""Extended MCP tool surface — registers Phase 1–3 oracle tools on the SDK server instance."""
 
 from typing import Annotated, Any, Callable
 
@@ -10,7 +10,7 @@ RunFn = Callable[[str, dict], str]
 def register_extended_tools(mcp: Any, run: RunFn) -> None:
     """Register consensus, thermodynamics, routing, risk, sampling, and resilience tools."""
 
-    # FastMCP inspects each nested function outside this scope. Evaluate annotations
+    # The SDK inspects each nested function outside this scope. Evaluate annotations
     # when the function is defined so these local aliases remain available to it.
 
     ValuesList = Annotated[

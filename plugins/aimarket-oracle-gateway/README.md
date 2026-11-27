@@ -19,7 +19,8 @@
 **One MCP server. Seventeen oracle families. Pay-per-call.**
 
 Transport: **stdio** (`aimarket_oracle_gateway/stdio_server.py`). Built with the official
-**Model Context Protocol** Python SDK ([`mcp`](https://github.com/modelcontextprotocol/python-sdk), `FastMCP`).
+**Model Context Protocol** Python SDK 2.x ([`mcp`](https://github.com/modelcontextprotocol/python-sdk), `MCPServer`).
+Answers **MCP 2026-07-28** (`server/discover`, no handshake) and keeps the `initialize` handshake for older clients.
 Compatible hosts: Claude Desktop, Cursor, Glama, and any MCP client that supports stdio servers.
 
 | Item | Location |
@@ -120,7 +121,7 @@ the client-side response checks alone cannot undo work or charges at a provider.
 Install the published server:
 
 ```bash
-pip install aimarket-oracle-gateway==0.3.3
+pip install aimarket-oracle-gateway==0.4.0
 ```
 
 Set `AIMARKET_HUB_URL` and, for a federated result, `AIMARKET_SOURCE_HUB` as above,

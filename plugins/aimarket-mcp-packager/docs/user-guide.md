@@ -2,7 +2,7 @@
 
 ## MCP server (stdio)
 
-This package includes a **Model Context Protocol (MCP) server** at `aimarket_mcp_packager/stdio_server.py` (Python MCP SDK / `FastMCP`). Tools: `package_capability`, `generate_dockerfile`, `generate_claude_desktop_config`. See [README](../README.md) for client config.
+This package includes a **Model Context Protocol (MCP) server** at `aimarket_mcp_packager/stdio_server.py` (Python MCP SDK 2.x / `MCPServer`). Tools: `package_capability`, `generate_dockerfile`, `generate_claude_desktop_config`. See [README](../README.md) for client config.
 
 ```bash
 pip install -r requirements-mcp.txt && pip install -e .

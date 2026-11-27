@@ -16,7 +16,7 @@ Quality score: **[glama.ai/mcp/servers/alexar76/aimarket-plugins/score](https://
 
 **This repository ships a [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server** that packages AIMarket capabilities into self-hosted MCP server products (Docker image metadata, MCP manifest, Claude Desktop config).
 
-Transport: **stdio** (`aimarket_mcp_packager/stdio_server.py`). Built with the official **[MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk)** (`mcp` package, `FastMCP`).
+Transport: **stdio** (`aimarket_mcp_packager/stdio_server.py`). Built with the official **[MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk)** (`mcp` package 2.x, `MCPServer`). Answers **MCP 2026-07-28** (`server/discover`, no handshake) and keeps the `initialize` handshake for older clients; the servers it generates do the same.
 
 Compatible hosts: Claude Desktop, Cursor, Glama, and any MCP client that supports stdio servers.
 
@@ -27,7 +27,7 @@ Compatible hosts: Claude Desktop, Cursor, Glama, and any MCP client that support
 | Item | Location |
 |------|----------|
 | MCP entrypoint | `aimarket_mcp_packager/stdio_server.py` |
-| MCP SDK dependency | Installed by default — `mcp>=1.6,<2` |
+| MCP SDK dependency | Installed by default — `mcp>=2.3.0,<3` |
 | Glama / Docker run | [`Dockerfile`](Dockerfile), [`glama.json`](glama.json), [docs/GLAMA.md](docs/GLAMA.md) |
 | Tool implementation | [`aimarket_mcp_packager/packager_core.py`](aimarket_mcp_packager/packager_core.py) |
 

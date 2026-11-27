@@ -11,7 +11,10 @@ name = "aimarket-zk"
 # Bumped because the tree diverged from the published 2.1.0 wheel: `pip install
 # aimarket-zk==2.1.0` served code this tree had already moved past, at the same version
 # string, so every fix in it was unpublishable and unreachable.
-version = "2.1.1"
+# 2.1.2: the 2026-11-16 fix (X-Forwarded-For counts only from a proxy listed in
+# AIMARKET_ZK_TRUSTED_PROXIES, d9ec3d151) changed plugin.py without a version bump, so PyPI's 2.1.1
+# still shipped the old file and the freshness gate refused every publish from the plugins tree.
+version = "2.1.2"
 description = "ZK input/output proofs for privacy-preserving capability invocation"
 # PEP 639 SPDX expression, not the legacy `{text = ...}` table, which emits a
 # deprecated free-text License: field instead of License-Expression:.

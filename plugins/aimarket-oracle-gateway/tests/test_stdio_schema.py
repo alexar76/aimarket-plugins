@@ -1,10 +1,10 @@
-"""Exercise real FastMCP introspection, including aliases local to the registrar."""
+"""Exercise the SDK's real signature introspection, including aliases local to the registrar."""
 import asyncio
 import json
 
 import pytest
 from jsonschema import Draft202012Validator
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 
 
 def test_all_oracle_tools_register_with_valid_constrained_schemas():
@@ -12,16 +12,17 @@ def test_all_oracle_tools_register_with_valid_constrained_schemas():
     from aimarket_oracle_gateway.gateway_core import CAPABILITIES
     from aimarket_oracle_gateway.stdio_server import mcp
 
-    tools = {tool.name: tool for tool in asyncio.run(mcp.list_tools())}
+    # The schemas as a client receives them: wire names, whatever the SDK calls its attributes.
+    tools = {tool.name: tool.model_dump(by_alias=True)["inputSchema"] for tool in asyncio.run(mcp.list_tools())}
     assert set(tools) == set(CAPABILITIES) | {"list_oracle_capabilities"}
-    for tool in tools.values():
-        Draft202012Validator.check_schema(tool.inputSchema)
-    schema = tools["aggregate_values"].inputSchema
+    for schema in tools.values():
+        Draft202012Validator.check_schema(schema)
+    schema = tools["aggregate_values"]
     validator = Draft202012Validator(schema)
     validator.validate({"values": [1.0, 2.0], "trim": 0.1})
     assert not validator.is_valid({"values": [], "trim": 0.1})
     assert not validator.is_valid({"values": [1.0], "trim": 0.5})
-    assert tools["optimize_route"].inputSchema["properties"]["points"]["minItems"] == 3
+    assert tools["optimize_route"]["properties"]["points"]["minItems"] == 3
 
 
 @pytest.mark.parametrize("name,arguments,required_payload", [
@@ -49,7 +50,7 @@ def test_family_tools_route_validated_arguments_without_network(name, arguments,
         calls.append((tool, payload))
         return json.dumps({"ok": True})
 
-    mcp = FastMCP("fixture")
+    mcp = MCPServer("fixture")
     register_family_tools(mcp, run)
     asyncio.run(mcp.call_tool(name, arguments))
     assert len(calls) == 1 and calls[0][0] == name

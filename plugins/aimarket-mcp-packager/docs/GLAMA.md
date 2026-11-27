@@ -19,13 +19,14 @@ Health check: container starts and answers JSON-RPC `initialize` + `tools/list` 
 | **Pinned commit SHA** | empty — use **`main`** (squashed satellite mirror deletes old SHAs) |
 | **Environment variables** | optional `AIMARKET_HUB_URL` — not required for introspection |
 
-Do **not** leave Build steps empty or set them to a bare `pip/uv install mcp` — that pulls **mcp 2.x**, which removed `mcp.server.fastmcp` (`FastMCP` → `MCPServer`). The install script pins `mcp>=1.6,<2` into `.venv`.
+Do **not** leave Build steps empty: the packager needs the **2.x** MCP SDK (`mcp.server.mcpserver.MCPServer`; releases before 2.2.0 needed 1.x and `FastMCP`). The install script pins `mcp>=2.3.0,<3` into `.venv`.
 
 ### Common errors
 
 | Log | Fix |
 |-----|-----|
-| `No module named 'mcp.server.fastmcp'` | Build steps must run `glama_install.sh` (mcp&lt;2). Sync Server after push. |
+| `No module named 'mcp.server.mcpserver'` | An `mcp` 1.x is installed. Build steps must run `glama_install.sh` (mcp 2.x). Sync Server after push. |
+| `No module named 'mcp.server.fastmcp'` | The checkout is older than 2.2.0 while `mcp` 2.x is installed. Sync Server to current `main`. |
 | `can't open file '.../mcp_stdio_server.py'` | File is a shim on `main` — clear stale SHA pin, Sync Server. |
 | `Connection closed` / `-32000` | Same as above — process exited before initialize. |
 | `externally managed environment` / `No module named pip` | Use the script (uv + `.venv`), not system `pip`. |

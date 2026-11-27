@@ -31,7 +31,7 @@ from __future__ import annotations
 import json
 from typing import Annotated, Any
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 from pydantic import Field
 
 from aimarket_oracle_gateway import __version__
@@ -44,8 +44,9 @@ from aimarket_oracle_gateway.gateway_core import (
 from aimarket_oracle_gateway.mcp_tool_surface import register_extended_tools
 from aimarket_oracle_gateway.mcp_family_tools import register_family_tools
 
-mcp = FastMCP(
+mcp = MCPServer(
     "aimarket-oracle-gateway",
+    version=__version__,      # ours, not the SDK's: this is what a host sees as serverInfo
     instructions=(
         "Verifiable oracle services for autonomous agents — pay-per-call over the AIMarket "
         "protocol (no signup by default). Call `list_oracle_capabilities` first.\n\n"
@@ -70,7 +71,6 @@ mcp = FastMCP(
         "verifiable}. Prefer verifying signatures/proofs/certificates over trusting the service."
     ),
 )
-mcp._mcp_server.version = __version__
 _gateway = OracleGateway.from_env()
 
 

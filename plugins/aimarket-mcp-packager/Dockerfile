@@ -10,7 +10,7 @@ WORKDIR /app
 COPY requirements-mcp.txt pyproject.toml README.md ./
 COPY aimarket_mcp_packager/ ./aimarket_mcp_packager/
 
-RUN pip install --no-cache-dir 'mcp>=1.6,<2' \
+RUN pip install --no-cache-dir 'mcp>=2.3.0,<3' \
     && pip install --no-cache-dir -r requirements-mcp.txt \
     && pip install --no-cache-dir --no-deps -e .
 

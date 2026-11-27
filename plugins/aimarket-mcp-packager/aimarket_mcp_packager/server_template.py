@@ -8,20 +8,17 @@ import os
 from jsonschema import Draft202012Validator
 from mcp.server.lowlevel import Server
 from mcp.server.stdio import stdio_server
-from mcp.types import TextContent, Tool
+from mcp.types import CallToolResult, ListToolsResult, TextContent, Tool
 from aimarket_mcp.tools import market_invoke
 
 CONFIG = json.loads(base64.b64decode("__CONFIG_B64__"))
-server = Server(CONFIG["name"], version="2.1.3")
 validator = Draft202012Validator(CONFIG["tool"]["inputSchema"])
 
 
-@server.list_tools()
 async def list_tools():
     return [Tool.model_validate(CONFIG["tool"])]
 
 
-@server.call_tool()
 async def call_tool(name, arguments):
     if name != CONFIG["tool"]["name"]:
         raise ValueError("Unknown tool")
@@ -33,6 +30,23 @@ async def call_tool(name, arguments):
         "input": arguments,
     })
     return [TextContent(type="text", text=result)]
+
+
+async def _on_list_tools(ctx, params):
+    return ListToolsResult(tools=await list_tools())
+
+
+async def _on_call_tool(ctx, params):
+    # A refused or failed call is a tool result the model can read, not a protocol error.
+    try:
+        return CallToolResult(content=await call_tool(params.name, params.arguments or {}))
+    except Exception as exc:
+        return CallToolResult(content=[TextContent(type="text", text=str(exc))], isError=True)
+
+
+# The 2.x SDK: this one server answers MCP 2026-07-28 (server/discover, no handshake) and the
+# initialize handshake of the earlier revisions.
+server = Server(CONFIG["name"], version="2.2.0", on_list_tools=_on_list_tools, on_call_tool=_on_call_tool)
 
 
 async def main():

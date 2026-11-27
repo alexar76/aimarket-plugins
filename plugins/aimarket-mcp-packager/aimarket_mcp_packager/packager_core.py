@@ -139,7 +139,7 @@ class MCPPackager:
         return f"""# MCP Server: {package.name}
 FROM python:3.12-slim
 WORKDIR /app
-RUN pip install --no-cache-dir 'aimarket-mcp>=0.6.3,<0.7' 'jsonschema>=4.23,<5'
+RUN pip install --no-cache-dir 'aimarket-mcp>=0.7.0,<0.8' 'jsonschema>=4.23,<5'
 RUN python -c "import base64,pathlib; pathlib.Path('/app/mcp_server.py').write_bytes(base64.b64decode('{source}'))"
 ENV MCP_SERVER_NAME={short}
 ENV HOME=/tmp PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1

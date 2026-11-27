@@ -136,7 +136,7 @@ def _proof_id_from_nullifier(nullifier: str) -> str:
 
 class ZKPlugin(HubPlugin):
     name = "aimarket-zk"
-    version = "2.1.1"
+    version = "2.1.2"
     description = "Zero-knowledge proofs for privacy-preserving AI invocation"
     homepage = "https://github.com/alexar76/aimarket-plugins"
     category = "security"
